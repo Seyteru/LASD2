@@ -34,6 +34,7 @@ private:
 protected:
 
   // ...
+  using Container::size;
 
 public:
 
@@ -45,8 +46,8 @@ public:
     // type operator==(argument) specifiers; // Comparison of abstract types is possible, but is not visible.
     // type operator!=(argument) specifiers; // Comparison of abstract types is possible, but is not visible.
 
-    bool operator==(const Node&) const noexcept;
-    bool operator!=(const Node&) const noexcept;
+    bool operator==(const Node &) const noexcept;
+    bool operator!=(const Node &) const noexcept;
 
   public:
 
@@ -184,7 +185,7 @@ protected:
 /* ************************************************************************** */
 
 template <typename Data>
-class MutableBinaryTree  : virtual public ClearableContainer, BinaryTree<Data>,virtual public PreOrderTraversableContainer<Data>, virtual public PostOrderTraversableContainer<Data>, virtual public InOrderTraversableContainer<Data>, virtual public BreadthTraversableContainer<Data>{
+class MutableBinaryTree  : virtual public ClearableContainer, BinaryTree<Data>, virtual public PreOrderTraversableContainer<Data>, virtual public PostOrderTraversableContainer<Data>, virtual public InOrderTraversableContainer<Data>, virtual public BreadthTraversableContainer<Data>{
   // Must extend ClearableContainer,
   //             BinaryTree<Data>,
   //             PreOrderMappableContainer<Data>,
@@ -202,7 +203,7 @@ protected:
 
 public:
 
-  struct MutableNode {
+  struct MutableNode : public Node{
     // Must extend Node
 
     // friend class MutableBinaryTree<Data>;
