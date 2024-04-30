@@ -334,6 +334,8 @@ private:
 protected:
 
   // ...
+  const typename BinaryTree<Data>::Node *root = nullptr:
+  StackVec<const typename BinaryTree<Data>::Node *> stk;
 
 public:
 
@@ -400,7 +402,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  ForwardIterator &operator++() override;
+  BTPreOrderIterator &operator++() override;
 
   /* ************************************************************************ */
 
@@ -426,6 +428,8 @@ private:
 protected:
 
   // ...
+  typename BinaryTree<Data>::Node *root = nullptr:
+  StackVec<typename BinaryTree<Data>::Node *> stk;
 
 public:
 
@@ -498,6 +502,8 @@ private:
 protected:
 
   // ...
+  const typename BinaryTree<Data>::Node *root = nullptr:
+  StackVec<const typename BinaryTree<Data>::Node *> stk;
 
 public:
 
@@ -590,6 +596,8 @@ private:
 protected:
 
   // ...
+  typename BinaryTree<Data>::Node *root = nullptr:
+  StackVec<typename BinaryTree<Data>::Node *> stk;
 
 public:
 
@@ -662,6 +670,8 @@ private:
 protected:
 
   // ...
+  const typename BinaryTree<Data>::Node *root = nullptr:
+  StackVec<const typename BinaryTree<Data>::Node *> stk;
 
 public:
 
@@ -754,6 +764,8 @@ private:
 protected:
 
   // ...
+  typename BinaryTree<Data>::Node *root = nullptr:
+  StackVec<typename BinaryTree<Data>::Node *> stk;
 
 public:
 
@@ -826,6 +838,8 @@ private:
 protected:
 
   // ...
+  const typename BinaryTree<Data>::Node *root = nullptr:
+  QueueVec<const typename BinaryTree<Data>::Node *> que;
 
 public:
 
@@ -918,6 +932,8 @@ private:
 protected:
 
   // ...
+  typename BinaryTree<Data>::Node *root = nullptr:
+  QueueVec<typename BinaryTree<Data>::Node *> que;
 
 public:
 
@@ -976,6 +992,7 @@ public:
 };
 
 /* ************************************************************************** */
+
 
 }
 

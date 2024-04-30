@@ -26,7 +26,7 @@ protected:
   using BinaryTree<Data>::Node;
   // ...
 
-  struct NodeLnk : virtual public MutableNode{ // Must extend MutableNode
+  struct NodeLnk : public MutableNode{ // Must extend MutableNode
 
   private:
 
