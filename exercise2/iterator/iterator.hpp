@@ -152,8 +152,8 @@ public:
   // type operator==(argument) specifiers; // Comparison of abstract types is not possible.
   // type operator!=(argument) specifiers; // Comparison of abstract types is not possible.
 
-  bool operator==(const MutableIterator &) const noexcept = delete;
-  bool operator!=(const MutableIterator &) const noexcept = delete;
+  bool operator==(const ForwardIterator &) const noexcept = delete;
+  bool operator!=(const ForwardIterator &) const noexcept = delete;
 
   /* ************************************************************************ */
 

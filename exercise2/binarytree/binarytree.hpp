@@ -180,12 +180,21 @@ protected:
 
   // Auxiliary functions, if necessary!
 
+  virtual void PreOrderTraverse(TraverseFun, Node &) const;
+
+  virtual void PostOrderTraverse(TraverseFun, Node &) const;
+
+  virtual void InOrderTraverse(TraverseFun, Node &) const;
+
+  virtual void BreadthTraverse(TraverseFun, Node &) const;
+
+
 };
 
 /* ************************************************************************** */
 
 template <typename Data>
-class MutableBinaryTree  : virtual public ClearableContainer, BinaryTree<Data>, virtual public PreOrderTraversableContainer<Data>, virtual public PostOrderTraversableContainer<Data>, virtual public InOrderTraversableContainer<Data>, virtual public BreadthTraversableContainer<Data>{
+class MutableBinaryTree  : virtual public ClearableContainer, virtual public BinaryTree<Data>, virtual public PreOrderTraversableContainer<Data>, virtual public PostOrderTraversableContainer<Data>, virtual public InOrderTraversableContainer<Data>, virtual public BreadthTraversableContainer<Data>{
   // Must extend ClearableContainer,
   //             BinaryTree<Data>,
   //             PreOrderMappableContainer<Data>,
@@ -200,10 +209,11 @@ private:
 protected:
 
   // ...
+  using Container::size;
 
 public:
 
-  struct MutableNode : public Node{
+  struct MutableNode : public Node<Data>{
     // Must extend Node
 
     // friend class MutableBinaryTree<Data>;
@@ -241,7 +251,7 @@ public:
     // type RightChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
 
     virtual Node &LeftChild() = 0;
-    virtual Node &LeftChild() = 0;
+    virtual Node &RightChild() = 0;
 
   };
 
@@ -318,6 +328,14 @@ protected:
 
   // Auxiliary functions, if necessary!
 
+  virtual void PreOrderMap(MapFun, MutableNode &);
+
+  virtual void PostOrderMap(MapFun, MutableNode &);
+
+  virtual void InOrderMap(MapFun, MutableNode &);
+
+  virtual void BreadthMap(MapFun, MutableNode &);
+
 };
 
 /* ************************************************************************** */
@@ -334,7 +352,7 @@ private:
 protected:
 
   // ...
-  const typename BinaryTree<Data>::Node *root = nullptr:
+  const typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<const typename BinaryTree<Data>::Node *> stk;
 
 public:
@@ -428,7 +446,7 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr:
+  typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<typename BinaryTree<Data>::Node *> stk;
 
 public:
@@ -502,7 +520,7 @@ private:
 protected:
 
   // ...
-  const typename BinaryTree<Data>::Node *root = nullptr:
+  const typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<const typename BinaryTree<Data>::Node *> stk;
 
 public:
@@ -570,7 +588,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  ForwardIterator &operator++() override;
+  BTPostOrderIterator &operator++() override;
 
   /* ************************************************************************ */
 
@@ -596,7 +614,7 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr:
+  typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<typename BinaryTree<Data>::Node *> stk;
 
 public:
@@ -616,7 +634,7 @@ public:
   // Move constructor
   // BTPostOrderMutableIterator(argument) specifiers;
 
-  BTPostOrderMutableIterator(BTPostOrderMutableIterator<Data> &&);
+  BTPostOrderMutableIterator(BTPostOrderMutableIterator<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -670,7 +688,7 @@ private:
 protected:
 
   // ...
-  const typename BinaryTree<Data>::Node *root = nullptr:
+  const typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<const typename BinaryTree<Data>::Node *> stk;
 
 public:
@@ -738,7 +756,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  ForwardIterator &operator++() override;
+  BTInOrderIterator &operator++() override;
 
   /* ************************************************************************ */
 
@@ -764,7 +782,7 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr:
+  typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<typename BinaryTree<Data>::Node *> stk;
 
 public:
@@ -784,7 +802,7 @@ public:
   // Move constructor
   // BTInOrderMutableIterator(argument) specifiers;
 
-  BTInOrderMutableIterator(BTInOrderMutableIterator<Data> &&);
+  BTInOrderMutableIterator(BTInOrderMutableIterator<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -838,7 +856,7 @@ private:
 protected:
 
   // ...
-  const typename BinaryTree<Data>::Node *root = nullptr:
+  const typename BinaryTree<Data>::Node *root = nullptr;
   QueueVec<const typename BinaryTree<Data>::Node *> que;
 
 public:
@@ -858,7 +876,7 @@ public:
   // Move constructor
   // BTBreadthIterator(argument) specifiers;
 
-  BTBreadthIterator(BTBreadthIterator<Data> &&);
+  BTBreadthIterator(BTBreadthIterator<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -906,7 +924,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  ForwardIterator &operator++() override;
+  BTBreadthIterator &operator++() override;
 
   /* ************************************************************************ */
 
@@ -932,7 +950,7 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr:
+  typename BinaryTree<Data>::Node *root = nullptr;
   QueueVec<typename BinaryTree<Data>::Node *> que;
 
 public:
@@ -952,7 +970,7 @@ public:
   // Move constructor
   // BTBreadthMutableIterator(argument) specifiers;
 
-  BTBreadthMutableIterator(BTBreadthMutableIterator<Data> &&);
+  BTBreadthMutableIterator(BTBreadthMutableIterator<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -992,7 +1010,6 @@ public:
 };
 
 /* ************************************************************************** */
-
 
 }
 

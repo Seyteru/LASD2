@@ -23,10 +23,10 @@ private:
 protected:
 
   // using BinaryTree<Data>::???;
-  using BinaryTree<Data>::Node;
+  using BinaryTree<Data>::size;
   // ...
 
-  struct NodeLnk : public MutableNode{ // Must extend MutableNode
+  struct NodeLnk : public MutableNode<Data>{ // Must extend MutableNode
 
   private:
 
@@ -38,9 +38,30 @@ protected:
 
   public:
 
-    // ...
+    NodeLnk() = default;
+    NodeLnk(const Data &);
+
+    ~NodeLnk();
+
+    Data element;
+    NodeLnk *right = nullptr;
+    NodeLnk *left = nullptr;
+
+    Data &Element() noexcept override;
+    const Data &Element() const noexcept override;
+
+    bool IsLeaf() const noexcept override;
+    bool HasLeftChild() const noexcept override;
+    bool HasRightChild() const noexcept override;
+
+    NodeLnk &LeftChild() const override;
+    NodeLnk &RightChild() const override;
+    NodeLnk &LeftChild() override;
+    NodeLnk &RightChild() override;
 
   };
+
+  NodeLnk *root = nullptr;
 
 public:
 
@@ -75,7 +96,7 @@ public:
   // Destructor
   // ~BinaryTreeLnk() specifiers;
 
-  ~BinaryTreeLnk() = default;
+  ~BinaryTreeLnk();
 
   /* ************************************************************************ */
 
@@ -104,7 +125,7 @@ public:
 
   // type Root() specifiers; // Override BinaryTree member (throw std::length_error when empty)
 
-  Node &Root() override;
+  NodeLnk &Root() const override;
 
   /* ************************************************************************ */
 

@@ -25,7 +25,7 @@ protected:
 
   // ...
 
-  struct NodeVec { // Must extend MutableNode
+  struct NodeVec : public MutableNode{ // Must extend MutableNode
 
   private:
 
