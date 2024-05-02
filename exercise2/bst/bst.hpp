@@ -13,7 +13,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BST {
+class BST : virtual public ClearableContainer,virtual public DictionaryContainer<Data>, virtual public BinaryTree<Data>, public BinaryTreeLnk<Data>{
   // Must extend ClearableContainer,
   //             DictionaryContainer<Data>,
   //             BinaryTree<Data>,
@@ -26,7 +26,7 @@ private:
 protected:
 
   // using BinaryTreeLnk<Data>::???;
-
+  using BinaryTree<Data>::NodeLnk;
   // ...
 
 public:
@@ -34,24 +34,35 @@ public:
   // Default constructor
   // BST() specifiers;
 
+  BST() = default;
+
   /* ************************************************************************ */
 
   // Specific constructors
   // BST(argument) specifiers; // A bst obtained from a TraversableContainer
   // BST(argument) specifiers; // A bst obtained from a MappableContainer
 
+  BST(const TraversableContainer<Data> &);
+  BST(MappableContainer<Data> &&);
+
   /* ************************************************************************ */
 
   // Copy constructor
   // BST(argument) specifiers;
 
+  BST(const BST<Data> &);
+
   // Move constructor
   // BST(argument) specifiers;
+
+  BST(BST<Data> &&);
 
   /* ************************************************************************ */
 
   // Destructor
   // ~BST() specifiers;
+
+  ~BST();
 
   /* ************************************************************************ */
 

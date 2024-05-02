@@ -81,16 +81,23 @@ namespace lasd {
 
     template <typename Data>
     inline BinaryTreeLnk<Data>::BinaryTreeLnk(const TraversableContainer<Data> &container){
+        //Use TraverseFun
+    }
 
+    template <typename Data>
+    BinaryTreeLnk<Data>::BinaryTreeLnk(MappableContainer<Data> &&){
+        //Use MapFun
     }
 
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data> &binaryTree){
-
+        root = binaryTree.root;
+        size = binaryTree.size;
     }
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data> &&binaryTree){
-
+        std::swap(root, binaryTree.root);
+        std::swap(size, binaryTree.size);
     }
 
     template <typename Data>
@@ -100,12 +107,16 @@ namespace lasd {
 
     template <typename Data>
     BinaryTreeLnk<Data> &BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk<Data> &binaryTree){
-        // TODO: insert return statement here
+        root = binaryTree.root;
+        size = binaryTree.size;
+        return *this;
     }
 
     template <typename Data>
     BinaryTreeLnk<Data> &BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data> &&binaryTree) noexcept{
-        // TODO: insert return statement here
+        std::swap(root, binaryTree.root);
+        std::swap(size, binaryTree.size);
+        return *this;
     }
 
     template <typename Data>

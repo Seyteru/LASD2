@@ -122,7 +122,7 @@ namespace lasd {
         queue.Enqueue(&node);
         Node *current = nullptr;
         while(!queue.Empty()){
-            *current = queue.HeadNDequeue;
+            current = queue.HeadNDequeue;
             traverseFun(current -> Element());
             if(current -> HasLeftChild()){
                 queue.Enqueue(&(current -> LeftChild()));
