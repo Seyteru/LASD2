@@ -180,11 +180,11 @@ protected:
 
   // Auxiliary functions, if necessary!
 
-  virtual void PreOrderTraverse(TraverseFun, Node &) const;
+  virtual void PreOrderTraverse(TraverseFun, const Node &) const;
 
-  virtual void PostOrderTraverse(TraverseFun, Node &) const;
+  virtual void PostOrderTraverse(TraverseFun, const Node &) const;
 
-  virtual void InOrderTraverse(TraverseFun, Node &) const;
+  virtual void InOrderTraverse(TraverseFun, const Node &) const;
 
   virtual void BreadthTraverse(TraverseFun, Node &) const;
 
@@ -194,7 +194,7 @@ protected:
 /* ************************************************************************** */
 
 template <typename Data>
-class MutableBinaryTree  : virtual public ClearableContainer, virtual public BinaryTree<Data>, virtual public PreOrderTraversableContainer<Data>, virtual public PostOrderTraversableContainer<Data>, virtual public InOrderTraversableContainer<Data>, virtual public BreadthTraversableContainer<Data>{
+class MutableBinaryTree : virtual public ClearableContainer, virtual public BinaryTree<Data>, virtual public PreOrderMappableContainer<Data>, virtual public PostOrderMappableContainer<Data>, virtual public InOrderMappableContainer<Data>, virtual public BreadthMappableContainer<Data>{
   // Must extend ClearableContainer,
   //             BinaryTree<Data>,
   //             PreOrderMappableContainer<Data>,
@@ -213,7 +213,9 @@ protected:
 
 public:
 
-  struct MutableNode : public Node<Data>{
+  using typename BinaryTree<Data>::Node;
+
+  struct MutableNode : Node{
     // Must extend Node
 
     // friend class MutableBinaryTree<Data>;
@@ -250,8 +252,8 @@ public:
     // type LeftChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
     // type RightChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
 
-    virtual Node &LeftChild() = 0;
-    virtual Node &RightChild() = 0;
+    virtual MutableNode &LeftChild() = 0;
+    virtual MutableNode &RightChild() = 0;
 
   };
 
@@ -408,7 +410,7 @@ public:
 
   // type operator*() specifiers; // (throw std::out_of_range when terminated)
 
-  Data &operator*() const override;
+  const Data &operator*() const override;
 
   // type Terminated() specifiers; // (should not throw exceptions)
 
@@ -576,7 +578,7 @@ public:
 
   // type operator*() specifiers; // (throw std::out_of_range when terminated)
 
-  Data &operator*() const override;
+  const Data &operator*() const override;
 
   // type Terminated() specifiers; // (should not throw exceptions)
 
@@ -744,7 +746,7 @@ public:
 
   // type operator*() specifiers; // (throw std::out_of_range when terminated)
 
-  Data &operator*() const override;
+  const Data &operator*() const override;
 
   // type Terminated() specifiers; // (should not throw exceptions)
 
@@ -912,7 +914,7 @@ public:
 
   // type operator*() specifiers; // (throw std::out_of_range when terminated)
 
-  Data &operator*() const override;
+  const Data &operator*() const override;
 
   // type Terminated() specifiers; // (should not throw exceptions)
 
@@ -989,7 +991,7 @@ public:
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BTBreadthMutableIterator &operator=(BTBreadthMutableIterator<Data> &&);
+  BTBreadthMutableIterator &operator=(BTBreadthMutableIterator<Data> &&) noexcept;
 
   /* ************************************************************************ */
 

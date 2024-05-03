@@ -8,9 +8,9 @@ namespace lasd {
         bool result = true;
         if(Element() == node.Element()){
             if(HasLeftChild() && node.HasLeftChild()){
-                resul= (LeftChild() == node.LeftChild());
+                result = (LeftChild() == node.LeftChild());
             } 
-            elseif(HasLeftChild() || node.HasLeftChild()){
+            else if(HasLeftChild() || node.HasLeftChild()){
                 result = false;
             }
             if(result){
@@ -84,7 +84,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    void BinaryTree<Data>::PreOrderTraverse(TraverseFun traverseFun, Node &node) const{
+    void BinaryTree<Data>::PreOrderTraverse(TraverseFun traverseFun, const Node &node) const{
         traverseFun(node.Element());
         if(node.HasLeftChild()){
             PreOrderTraverse(traverseFun, node.LeftChild());
@@ -95,7 +95,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    void BinaryTree<Data>::PostOrderTraverse(TraverseFun traverseFun, Node &node) const{
+    void BinaryTree<Data>::PostOrderTraverse(TraverseFun traverseFun, const Node &node) const{
         if(node.HasLeftChild()){
             PostOrderTraverse(traverseFun, node.LeftChild());
         }
@@ -106,7 +106,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    void BinaryTree<Data>::InOrderTraverse(TraverseFun traverseFun, Node &node) const{
+    void BinaryTree<Data>::InOrderTraverse(TraverseFun traverseFun, const Node &node) const{
         if(node.HasLeftChild()){
             PostOrderTraverse(traverseFun, node.LeftChild());
         }
@@ -122,7 +122,7 @@ namespace lasd {
         queue.Enqueue(&node);
         Node *current = nullptr;
         while(!queue.Empty()){
-            current = queue.HeadNDequeue;
+            current = queue.HeadNDequeue();
             traverseFun(current -> Element());
             if(current -> HasLeftChild()){
                 queue.Enqueue(&(current -> LeftChild()));
@@ -133,9 +133,9 @@ namespace lasd {
         }
     }
 
-    // Map and MapAuxiliary Functions
+    //Map and MapAuxiliary Functions
     template <typename Data>
-    inline void MutableBinaryTree<Data>::Map(MapFun mapFun){
+    void MutableBinaryTree<Data>::Map(MapFun mapFun){
         PreOrderMap(mapFun);
     }
 
@@ -202,11 +202,11 @@ namespace lasd {
 
     template <typename Data>
     void MutableBinaryTree<Data>::BreadthMap(MapFun mapFun, MutableNode &mutNode){
-        QueueVec<MutableNode *> queue;
+        QueueVec<MutableNode*> queue;
         queue.Enqueue(&mutNode);
         MutableNode *current = nullptr;
         while(!queue.Empty()){
-            *current = queue.HeadNDequeue;
+            current = queue.HeadNDequeue();
             mapFun(current -> Element());
             if(current -> HasLeftChild()){
                 queue.Enqueue(&(current -> LeftChild()));
@@ -262,7 +262,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    Data &BTPreOrderIterator<Data>::operator*() const{
+    const Data &BTPreOrderIterator<Data>::operator*() const{
         if(Terminated()){
             throw std::out_of_range("PreOrderIterator Terminated");
         } else{
@@ -303,8 +303,7 @@ namespace lasd {
 
     template <typename Data>
     void BTPreOrderIterator<Data>::Reset() noexcept{
-        root = &binaryTree.Root();
-        stk.Clear();
+        //TODO
     }
 
     //PreOrderMutableIterator
@@ -353,7 +352,7 @@ namespace lasd {
 
     template <typename Data>
     Data &BTPreOrderMutableIterator<Data>::operator*(){
-        if(Terminated()){
+        if(BTPreOrderIterator<Data>::Terminated()){
             throw std::out_of_range("PreOrderMutableIterator Terminated");
         } else{
             return root -> Element();
@@ -411,7 +410,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    Data &BTPostOrderIterator<Data>::operator*() const{
+    const Data &BTPostOrderIterator<Data>::operator*() const{
         if(Terminated()){
             throw std::out_of_range("PostOrderIterator Terminated");
         } else{
@@ -425,7 +424,33 @@ namespace lasd {
     }
     template <typename Data>
     BTPostOrderIterator<Data> &BTPostOrderIterator<Data>::operator++(){
-        //ToDO
+        if(!Terminated()){
+            if(!stk.Empty()){
+                if(stk.Top() -> HasRightChild()){
+                    if(&stk.Top() -> RightChild() != root){
+                        root = &stk.Top() -> RightChild();
+                        while(root -> HasLeftChild() || root -> HasRightChild()){
+                            if(root -> HasLeftChild()){
+                                stk.Push(root);
+                                root = &root -> LeftChild();
+                            } else{
+                                stk.Push(root);
+                                root = &root -> RightChild();
+                            }
+                        }
+                    } else{
+                        root = stk.TopNPop();
+                    }
+                } else{
+                    root = stk.TopNPop();
+                }
+            } else{
+                root = nullptr;
+            }
+        } else{
+            throw std::out_of_range("PostOrderIterator Terminated");
+        }
+        return *this;
     }
 
     template <typename Data>
@@ -485,7 +510,7 @@ namespace lasd {
 
     template <typename Data>
     Data &BTPostOrderMutableIterator<Data>::operator*(){
-        if(Terminated()){
+        if(BTPostOrderIterator<Data>::Terminated()){
             throw std::out_of_range("PostOrderMutableIterator Terminated");
         } else{
             return root -> Element();
@@ -539,7 +564,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    Data &BTInOrderIterator<Data>::operator*() const{
+    const Data &BTInOrderIterator<Data>::operator*() const{
         if(Terminated()){
             throw std::out_of_range("InOrderIterator Terminated");
         } else{
@@ -554,14 +579,31 @@ namespace lasd {
     template <typename Data>
     BTInOrderIterator<Data> &BTInOrderIterator<Data>::operator++(){
         if(!Terminated()){
-            if(root.IsLeaf()){
+            if(root -> IsLeaf()){
                 if(stk.Empty()){
                     root = nullptr;
                 } else{
                     root = stk.TopNPop();
                 }
+            } else{
+                if(root -> HasRightChild()){
+                    root = &root -> RightChild();
+                    while(root -> HasLeftChild()){
+                        stk.Push(root);
+                        root = &root -> LeftChild();
+                    }
+                } else{
+                    if(stk.Empty()){
+                        root = nullptr;
+                    } else{
+                        root = stk.TopNPop();
+                    }
+                }
             }
+        } else{
+            throw std::out_of_range("InOrderIterator Terminated");
         }
+        return *this;
     }
 
     template <typename Data>
@@ -617,7 +659,7 @@ namespace lasd {
 
     template <typename Data>
     Data &BTInOrderMutableIterator<Data>::operator*(){
-        if(Terminated()){
+        if(BTInOrderIterator<Data>::Terminated()){
             throw std::out_of_range("InOrderMutableIterator Terminated");
         } else{
             return root -> Element();
@@ -669,7 +711,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    Data &BTBreadthIterator<Data>::operator*() const{
+    const Data &BTBreadthIterator<Data>::operator*() const{
         if(Terminated()){
             throw std::out_of_range("BreadthIterator Terminated");
         } else{
@@ -695,13 +737,15 @@ namespace lasd {
             } else{
                 root = que.HeadNDequeue();
             }
+        } else{
+            throw std::out_of_range("BreadthIterator Terminated");
         }
+        return *this;
     }
 
     template <typename Data>
     void BTBreadthIterator<Data>::Reset() noexcept{
-        que.Clear();
-        root = Root();
+        //TODO
     }
 
     // BreadthMutableIterator
@@ -750,7 +794,7 @@ namespace lasd {
 
     template <typename Data>
     Data &BTBreadthMutableIterator<Data>::operator*(){
-        if(Terminated()){
+        if(BTBreadthIterator<Data>::Terminated()){
             throw std::out_of_range("BreadthMutableIterator Terminated");
         } else{
             return root -> Element();

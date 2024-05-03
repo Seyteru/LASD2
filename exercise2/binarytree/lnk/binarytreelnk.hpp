@@ -23,10 +23,12 @@ private:
 protected:
 
   // using BinaryTree<Data>::???;
-  using BinaryTree<Data>::size;
+  using Container::size;
+  using typename BinaryTree<Data>::Node;
+  using typename MutableBinaryTree<Data>::MutableNode;
   // ...
 
-  struct NodeLnk : public MutableNode<Data>{ // Must extend MutableNode
+  struct NodeLnk : MutableNode{ // Must extend MutableNode
 
   private:
 

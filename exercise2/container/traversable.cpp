@@ -73,7 +73,7 @@ namespace lasd {
     template <typename Data>
     template <typename Accumulator>
     inline Accumulator BreadthTraversableContainer<Data>::BreadthFold(FoldFun<Accumulator> foldFun, Accumulator acc) const{
-        BreadthFold(
+        BreadthTraverse(
             [foldFun, &acc](const Data &dat){
                 acc = foldFun(dat, acc);
             }

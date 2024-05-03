@@ -102,7 +102,7 @@ public:
   // Specific member functions
 
   // type Clear() specifiers;
-  // Vedere se conviene definirlo o farlo puro.
+  
   virtual void Clear() = 0;
 
 };

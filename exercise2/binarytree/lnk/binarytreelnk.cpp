@@ -81,7 +81,7 @@ namespace lasd {
 
     template <typename Data>
     inline BinaryTreeLnk<Data>::BinaryTreeLnk(const TraversableContainer<Data> &container){
-        //Use TraverseFun
+        
     }
 
     template <typename Data>
@@ -138,7 +138,7 @@ namespace lasd {
         if(size != 0){
             return *root;
         } else{
-            throw std::length_error("Binary Tree is Empty")
+            throw std::length_error("Binary Tree is Empty");
         }
     }
 
@@ -147,7 +147,7 @@ namespace lasd {
         if(size != 0){
             return *root;
         } else{
-            throw std::length_error("Binary Tree is Empty")
+            throw std::length_error("Binary Tree is Empty");
         }
     }
 
@@ -159,4 +159,5 @@ namespace lasd {
             size = 0;
         }
     }
+
 }

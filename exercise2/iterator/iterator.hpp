@@ -53,7 +53,7 @@ public:
 
   // type operator*() specifiers; // (non-mutable version; concrete function must throw std::out_of_range when terminated)
 
-  virtual Data &operator*() const = 0;
+  virtual const Data &operator*() const = 0;
 
   // type Terminated() specifiers; // (concrete function should not throw exceptions)
 
