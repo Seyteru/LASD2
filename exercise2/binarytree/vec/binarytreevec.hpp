@@ -26,6 +26,7 @@ protected:
   // ...
 
   using typename MutableBinaryTree<Data>::MutableNode;
+  using Container::size;
 
   struct NodeVec : MutableNode{ // Must extend MutableNode
 
@@ -39,9 +40,29 @@ protected:
 
   public:
 
-    // ...
+    NodeVec() = default;
+
+    ~NodeVec();
+
+    Data &Element() noexcept override;
+    const Data &Element() const noexcept override;
+
+    bool IsLeaf() const noexcept override;
+    bool HasLeftChild() const noexcept override;
+    bool HasRightChild() const noexcept override;
+
+    NodeVec &LeftChild() const override;
+    NodeVec &RightChild() const override;
+    NodeVec &LeftChild() override;
+    NodeVec &RightChild() override;
+
+    Data element;
+    Vector<NodeVec*> v;
+    long idxNode;
 
   };
+
+  Vector<NodeVec*> vec;
 
 public:
 

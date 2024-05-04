@@ -52,12 +52,12 @@ public:
   // Copy constructor
   // BST(argument) specifiers;
 
-  BST(const BST<Data> &);
+  BST(const BST<Data> &binaryTree) : BinaryTreeLnk<Data>::BinaryTreeLnk(binaryTree) {};
 
   // Move constructor
   // BST(argument) specifiers;
 
-  BST(BST<Data> &&);
+  BST(BST<Data> &&binaryTree) noexcept : BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(binaryTree)) {};
 
   /* ************************************************************************ */
 
@@ -71,12 +71,12 @@ public:
   // Copy assignment
   // type operator=(argument) specifiers;
 
-  BST(const BST &);
+  BST &operator=(const BST &);
 
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BST(BST &&) noexcept;
+  BST &operator=(BST &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -113,17 +113,17 @@ public:
   // type PredecessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type RemovePredecessor(argument) specifiers; // (concrete function must throw std::length_error when not found)
 
-  virtual const Data &Predecessor() const;
-  virtual Data PredecessorNRemove();
-  virtual void RemovePredecessor() const;
+  virtual const Data &Predecessor(const Data &) const;
+  virtual Data PredecessorNRemove(const Data &);
+  virtual void RemovePredecessor(const Data &) const;
 
   // type Successor(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type SuccessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type RemoveSuccessor(argument) specifiers; // (concrete function must throw std::length_error when not found)
 
-  virtual const Data &Successor() const;
-  virtual Data SuccessorNRemove();
-  virtual void RemoveSuccessor() const;
+  virtual const Data &Successor(const Data &) const;
+  virtual Data SuccessorNRemove(const Data &);
+  virtual void RemoveSuccessor(const Data &) const;
 
   /* ************************************************************************ */
 
@@ -142,7 +142,7 @@ public:
   // type Remove(argument) specifiers; // Override DictionaryContainer member
 
   bool Insert(const Data &) override;
-  bool Insert(Data &&) override;
+  bool Insert(Data &&) noexcept override;
   bool Remove(const Data &) override;
 
   /* ************************************************************************ */
@@ -167,7 +167,7 @@ protected:
 
   // type DataNDelete(argument) specifiers;
 
-  virtual DataNDelete(NodeLnk *);
+  virtual Data DataNDelete(NodeLnk *);
 
   // type Detach(argument) specifiers;
 
@@ -201,10 +201,10 @@ protected:
   // type FindPointerToPredecessor(argument) specifiers; // Both mutable & unmutable versions
   // type FindPointerToSuccessor(argument) specifiers; // Both mutable & unmutable versions
 
-  virtual NodeLnk **FindPointerToPredecessor(NodeLnk *&) noexcept;
-  virtual const NodeLnk * const *FindPointerToPredecessor(const NodeLnk * const &) const noexcept;
-  virtual NodeLnk **FindPointerToSuccessor(NodeLnk *&) noexcept;
-  virtual const NodeLnk * const *FindPointerToSuccessor(const NodeLnk * const &) const noexcept;
+  virtual NodeLnk **FindPointerToPredecessor(NodeLnk *&, const Data &) noexcept;
+  virtual const NodeLnk * const *FindPointerToPredecessor(const NodeLnk * const &, const Data &) const noexcept;
+  virtual NodeLnk **FindPointerToSuccessor(NodeLnk *&, const Data &) noexcept;
+  virtual const NodeLnk * const *FindPointerToSuccessor(const NodeLnk * const &, const Data &) const noexcept;
 
 };
 
