@@ -80,22 +80,25 @@ namespace lasd {
     }
 
     template <typename Data>
-    inline BinaryTreeLnk<Data>::BinaryTreeLnk(const TraversableContainer<Data> &container){
-        
+    BinaryTreeLnk<Data>::BinaryTreeLnk(const TraversableContainer<Data> &container){
+        size = container.Size();
+        root = CreateTree(container, 0, root);
     }
 
     template <typename Data>
-    BinaryTreeLnk<Data>::BinaryTreeLnk(MappableContainer<Data> &&){
-        //Use MapFun
+    BinaryTreeLnk<Data>::BinaryTreeLnk(MappableContainer<Data> &&container){
+        size = container.Size();
+        root = CreateTree(container, 0, root);
     }
 
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data> &binaryTree){
-        root = binaryTree.root;
         size = binaryTree.size;
+        root = CreateTree(&binaryTree.Root());
     }
+
     template <typename Data>
-    BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data> &&binaryTree){
+    BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data> &&binaryTree) noexcept{
         std::swap(root, binaryTree.root);
         std::swap(size, binaryTree.size);
     }
@@ -107,8 +110,11 @@ namespace lasd {
 
     template <typename Data>
     BinaryTreeLnk<Data> &BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk<Data> &binaryTree){
-        root = binaryTree.root;
-        size = binaryTree.size;
+        Clear();
+        if(!binaryTree.Empty()){
+            size = binaryTree.size;
+            root = CreateTree(&binaryTree.Root());
+        }
         return *this;
     }
 
@@ -158,6 +164,42 @@ namespace lasd {
             root = nullptr;
             size = 0;
         }
+    }
+
+    template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk *BinaryTreeLnk<Data>::CreateTree(const TraversableContainer<Data> &container, ulong idx, NodeLnk *root){
+        Vector<Data> vec(container);
+        if(idx < container.Size()){
+            root = new NodeLnk(vec[idx]);
+            root -> left = CreateTree(container, (idx * 2) + 1, root -> left);
+            root -> right = CreateTree(container, (idx * 2) + 2, root -> right);
+        }
+        vec.Clear();
+        return root;
+    }
+
+    template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk *BinaryTreeLnk<Data>::CreateTree(MappableContainer<Data> &&container, ulong idx, NodeLnk *root){
+        Vector<Data> vec(std::move(container));
+        if(idx < container.Size()){
+            root = new NodeLnk(std::move(vec[idx]));
+            root -> left = CreateTree(container, (idx * 2) + 1, root -> left);
+            root -> right = CreateTree(container, (idx * 2) + 2, root -> right);
+        }
+        return root;
+    }
+
+    template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk *BinaryTreeLnk<Data>::CreateTree(NodeLnk *root){
+        NodeLnk *tempNode = new NodeLnk();
+        tempNode -> element = root -> Element();
+        if(root -> HasLeftChild()){
+            tempNode -> left = CreateTree(root -> left);
+        }
+        if(root -> HasRightChild()){
+            tempNode -> right = CreateTree(root -> right);
+        }
+        return tempNode;
     }
 
 }

@@ -209,13 +209,12 @@ private:
 protected:
 
   // ...
-  using Container::size;
+  using BinaryTree<Data>::size;
+  using typename BinaryTree<Data>::Node;
 
 public:
 
-  using typename BinaryTree<Data>::Node;
-
-  struct MutableNode : Node{
+  struct MutableNode : virtual Node{
     // Must extend Node
 
     // friend class MutableBinaryTree<Data>;

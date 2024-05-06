@@ -24,11 +24,11 @@ private:
 protected:
 
   // ...
-
+  using typename BinaryTree<Data>::Node;
   using typename MutableBinaryTree<Data>::MutableNode;
-  using Container::size;
+  using BinaryTree<Data>::size;
 
-  struct NodeVec : MutableNode{ // Must extend MutableNode
+  struct NodeVec : virtual MutableNode{ // Must extend MutableNode
 
   private:
 
@@ -57,8 +57,8 @@ protected:
     NodeVec &RightChild() override;
 
     Data element;
-    Vector<NodeVec*> v;
-    long idxNode;
+    Vector<NodeVec*> *pvec = nullptr;
+    ulong idxNode;
 
   };
 
@@ -161,7 +161,7 @@ public:
   // type BreadthMap(arguments) specifiers; // Override BreadthMappableContainer member
 
   using typename MappableContainer<Data>::MapFun;
-  virtual void BreadthMap(MapFun) const override;
+  virtual void BreadthMap(MapFun) override;
 
 protected:
 

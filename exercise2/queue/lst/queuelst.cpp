@@ -2,22 +2,9 @@
 
 namespace lasd {
 
-    
-    // template <typename Data>
-    // inline QueueLst<Data>::QueueLst(const TraversableContainer<Data> &container){
-        
-    // }
-
-    // template <typename Data>
-    // QueueLst<Data>::QueueLst(MappableContainer<Data> &&container){
-        
-    // }
-
-    //Probably not correct
     template <typename Data>
     QueueLst<Data>::QueueLst(const QueueLst<Data> &queueLst) : List<Data>(queueLst) {}
 
-    //Probably not correct
     template <typename Data>
     QueueLst<Data>::QueueLst(QueueLst<Data> &&queueLst) noexcept : List<Data>(std::move(queueLst)){}
 

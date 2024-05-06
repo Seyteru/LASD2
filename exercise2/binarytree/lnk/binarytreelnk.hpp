@@ -23,12 +23,12 @@ private:
 protected:
 
   // using BinaryTree<Data>::???;
-  using Container::size;
+  using BinaryTree<Data>::size;
   using typename BinaryTree<Data>::Node;
   using typename MutableBinaryTree<Data>::MutableNode;
   // ...
 
-  struct NodeLnk : MutableNode{ // Must extend MutableNode
+  struct NodeLnk : virtual MutableNode{ // Must extend MutableNode
 
   private:
 
@@ -91,7 +91,7 @@ public:
   // Move constructor
   // BinaryTreeLnk(argument) specifiers;
 
-  BinaryTreeLnk(BinaryTreeLnk<Data> &&);
+  BinaryTreeLnk(BinaryTreeLnk<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -144,6 +144,10 @@ public:
   // type Clear() specifiers; // Override ClearableContainer member
 
   void Clear() override;
+
+  NodeLnk *CreateTree(const TraversableContainer<Data> &, ulong, NodeLnk *);
+  NodeLnk *CreateTree(MappableContainer<Data> &&, ulong, NodeLnk *);
+  NodeLnk *CreateTree(NodeLnk *);
 
 };
 
