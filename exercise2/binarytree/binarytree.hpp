@@ -93,8 +93,8 @@ public:
     // type LeftChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
     // type RightChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
 
-    virtual Node &LeftChild() const = 0;
-    virtual Node &RightChild() const = 0;
+    virtual const Node &LeftChild() const = 0;
+    virtual const Node &RightChild() const = 0;
 
   };
 
@@ -110,12 +110,12 @@ public:
   // Copy assignment
   // type operator=(argument); // Copy assignment of abstract types is not possible.
 
-  BinaryTree &operator=(const BinaryTree &) = delete;
+  BinaryTree &operator=(const BinaryTree<Data> &) = delete;
 
   // Move assignment
   // type operator=(argument); // Move assignment of abstract types is not possible.
 
-  BinaryTree &operator=(BinaryTree &&) = delete;
+  BinaryTree &operator=(BinaryTree<Data> &&) = delete;
 
   /* ************************************************************************ */
 
@@ -123,8 +123,8 @@ public:
   // type operator==(argument) specifiers; // Comparison of abstract binary tree is possible.
   // type operator!=(argument) specifiers; // Comparison of abstract binary tree is possible.
 
-  bool operator==(const BinaryTree &) const noexcept;
-  bool operator!=(const BinaryTree &) const noexcept;
+  bool operator==(const BinaryTree<Data> &) const noexcept;
+  bool operator!=(const BinaryTree<Data> &) const noexcept;
 
   /* ************************************************************************ */
 
@@ -132,7 +132,7 @@ public:
 
   // type Root() specifiers; // (concrete function must throw std::length_error when empty)
 
-  virtual Node &Root() const = 0;
+  virtual const Node &Root() const = 0;
 
   /* ************************************************************************ */
 
@@ -186,7 +186,7 @@ protected:
 
   virtual void InOrderTraverse(TraverseFun, const Node &) const;
 
-  virtual void BreadthTraverse(TraverseFun, Node &) const;
+  virtual void BreadthTraverse(TraverseFun, const Node &) const;
 
 
 };
@@ -209,7 +209,7 @@ private:
 protected:
 
   // ...
-  using BinaryTree<Data>::size;
+  using Container::size;
   using typename BinaryTree<Data>::Node;
 
 public:
@@ -246,11 +246,14 @@ public:
 
     // type Element() specifiers; // Mutable access to the element (concrete function should not throw exceptions)
 
+    using Node::Element;
     virtual Data &Element() noexcept = 0;
 
     // type LeftChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
     // type RightChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
 
+    using Node::LeftChild;
+    using Node::RightChild;
     virtual MutableNode &LeftChild() = 0;
     virtual MutableNode &RightChild() = 0;
 
@@ -281,6 +284,7 @@ public:
 
   // type Root() specifiers; // (concrete function must throw std::length_error when empty)
 
+  using BinaryTree<Data>::Root;
   virtual MutableNode &Root() = 0;
 
   /* ************************************************************************ */
@@ -355,6 +359,7 @@ protected:
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<const typename BinaryTree<Data>::Node *> stk;
+  const typename BinaryTree<Data>::Node *origin = nullptr;
 
 public:
 
@@ -421,7 +426,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  BTPreOrderIterator &operator++() override;
+  ForwardIterator<Data> &operator++() override;
 
   /* ************************************************************************ */
 
@@ -455,7 +460,7 @@ public:
   // Specific constructors
   // BTPreOrderMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTPreOrderMutableIterator(const MutableBinaryTree<Data> &);
+  BTPreOrderMutableIterator(MutableBinaryTree<Data> &);
 
   /* ************************************************************************ */
 
@@ -523,6 +528,8 @@ protected:
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<const typename BinaryTree<Data>::Node *> stk;
+  const typename BinaryTree<Data>::Node *origin = nullptr;
+  StackVec<const typename BinaryTree<Data>::Node *> stkOrigin;
 
 public:
 
@@ -589,7 +596,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  BTPostOrderIterator &operator++() override;
+  ForwardIterator<Data> &operator++() override;
 
   /* ************************************************************************ */
 
@@ -623,7 +630,7 @@ public:
   // Specific constructors
   // BTPostOrderMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTPostOrderMutableIterator(const MutableBinaryTree<Data> &);
+  BTPostOrderMutableIterator(MutableBinaryTree<Data> &);
 
   /* ************************************************************************ */
 
@@ -691,6 +698,8 @@ protected:
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
   StackVec<const typename BinaryTree<Data>::Node *> stk;
+  const typename BinaryTree<Data>::Node *origin = nullptr;
+  StackVec<const typename BinaryTree<Data>::Node *> stkOrigin;
 
 public:
 
@@ -757,7 +766,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  BTInOrderIterator &operator++() override;
+  ForwardIterator<Data> &operator++() override;
 
   /* ************************************************************************ */
 
@@ -791,7 +800,7 @@ public:
   // Specific constructors
   // BTInOrderMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTInOrderMutableIterator(const MutableBinaryTree<Data> &);
+  BTInOrderMutableIterator(MutableBinaryTree<Data> &);
 
   /* ************************************************************************ */
 
@@ -859,6 +868,7 @@ protected:
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
   QueueVec<const typename BinaryTree<Data>::Node *> que;
+  const typename BinaryTree<Data>::Node *origin = nullptr;
 
 public:
 
@@ -925,7 +935,7 @@ public:
 
   // type operator++() specifiers; // (throw std::out_of_range when terminated)
 
-  BTBreadthIterator &operator++() override;
+  ForwardIterator<Data> &operator++() override;
 
   /* ************************************************************************ */
 
@@ -951,15 +961,15 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr;
-  QueueVec<typename BinaryTree<Data>::Node *> que;
+  using BTBreadthIterator<Data>::que;
+  using BTBreadthIterator<Data>::root;
 
 public:
 
   // Specific constructors
   // BTBreadthMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTBreadthMutableIterator(const MutableBinaryTree<Data> &);
+  BTBreadthMutableIterator(MutableBinaryTree<Data> &);
 
   /* ************************************************************************ */
 

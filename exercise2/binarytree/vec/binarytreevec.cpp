@@ -3,11 +3,6 @@
 namespace lasd {
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec::~NodeVec(){
-
-    }
-
-    template <typename Data>
     Data &BinaryTreeVec<Data>::NodeVec::Element() noexcept{
         return element;
     }
@@ -41,7 +36,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::LeftChild() const{
+    const BinaryTreeVec<Data>::Node &BinaryTreeVec<Data>::NodeVec::LeftChild() const{
         if(HasLeftChild()){
             return *((*pvec)[2 * (idxNode) + 1]);
         } else{
@@ -50,7 +45,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::LeftChild(){
+    BinaryTreeVec<Data>::MutableNode &BinaryTreeVec<Data>::NodeVec::LeftChild(){
         if(HasLeftChild()){
             return *((*pvec)[2 * (idxNode) + 1]);
         } else{
@@ -59,7 +54,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::RightChild() const{
+    const BinaryTreeVec<Data>::Node &BinaryTreeVec<Data>::NodeVec::RightChild() const{
         if(HasRightChild()){
             return *((*pvec)[2 * (idxNode) + 2]);
         } else{
@@ -68,7 +63,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::RightChild(){
+    BinaryTreeVec<Data>::MutableNode &BinaryTreeVec<Data>::NodeVec::RightChild(){
         if(HasRightChild()){
             return *((*pvec)[2 * (idxNode) + 2]);
         } else{
@@ -106,7 +101,7 @@ namespace lasd {
     template <typename Data>
     BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> &binaryTree){
         vec.Resize(binaryTree.size);
-        for(ulong i = 0; i > binaryTree.size; i++){
+        for(ulong i = 0; i < binaryTree.size; i++){
             vec[i] = new NodeVec();
             vec[i] -> element = binaryTree.vec[i] -> element;
             vec[i] -> idxNode = binaryTree.vec[i] -> idxNode;
@@ -129,7 +124,7 @@ namespace lasd {
     template <typename Data>
     BinaryTreeVec<Data> &BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data> &binaryTree){
         vec.Resize(binaryTree.size);
-        for(ulong i = 0; i > binaryTree.size; i++){
+        for(ulong i = 0; i < binaryTree.size; i++){
             vec[i] = new NodeVec();
             vec[i] -> element = binaryTree.vec[i] -> element;
             vec[i] -> idxNode = i;
@@ -170,8 +165,8 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::Root() const{
-        if(size > 0){
+    const BinaryTreeVec<Data>::Node &BinaryTreeVec<Data>::Root() const{
+        if(size != 0){
             return *(vec[0]);
         } else{
             throw std::length_error("BinaryTreeVec is Empty");
@@ -179,8 +174,8 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::Root(){
-        if(size > 0){
+    BinaryTreeVec<Data>::MutableNode &BinaryTreeVec<Data>::Root(){
+        if(size != 0){
             return *(vec[0]);
         } else{
             throw std::length_error("BinaryTreeVec is Empty");
@@ -196,13 +191,14 @@ namespace lasd {
         size = 0;
     }
 
-    template <typename Data>
-    void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun traverseFun) const{
+//     template <typename Data>
+//     void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun traverseFun) const{
         
-    }
+//     }
 
-    template <typename Data>
-    void BinaryTreeVec<Data>::BreadthMap(MapFun mapFun){
+//     template <typename Data>
+//     void BinaryTreeVec<Data>::BreadthMap(MapFun mapFun){
+        
+//     }
 
-    }
 }

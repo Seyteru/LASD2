@@ -23,10 +23,14 @@ private:
 protected:
 
   // using BinaryTree<Data>::???;
-  using BinaryTree<Data>::size;
+  using Container::size;
+
+public:
+
   using typename BinaryTree<Data>::Node;
   using typename MutableBinaryTree<Data>::MutableNode;
-  // ...
+
+protected:
 
   struct NodeLnk : virtual MutableNode{ // Must extend MutableNode
 
@@ -42,6 +46,7 @@ protected:
 
     NodeLnk() = default;
     NodeLnk(const Data &);
+    NodeLnk(Data &&) noexcept;
 
     ~NodeLnk();
 
@@ -56,10 +61,10 @@ protected:
     bool HasLeftChild() const noexcept override;
     bool HasRightChild() const noexcept override;
 
-    NodeLnk &LeftChild() const override;
-    NodeLnk &RightChild() const override;
-    NodeLnk &LeftChild() override;
-    NodeLnk &RightChild() override;
+    virtual const Node &LeftChild() const override;
+    virtual const Node &RightChild() const override;
+    virtual MutableNode &LeftChild() override;
+    virtual MutableNode &RightChild() override;
 
   };
 
@@ -127,7 +132,7 @@ public:
 
   // type Root() specifiers; // Override BinaryTree member (throw std::length_error when empty)
 
-  NodeLnk &Root() const override;
+  const Node &Root() const override;
 
   /* ************************************************************************ */
 
@@ -135,7 +140,7 @@ public:
 
   // type Root() specifiers; // Override MutableBinaryTree member (throw std::length_error when empty)
 
-  NodeLnk &Root() override;
+  MutableNode &Root() override;
 
   /* ************************************************************************ */
 

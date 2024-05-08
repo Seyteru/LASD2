@@ -4,12 +4,12 @@ namespace lasd {
 
     template <typename Data>
     BST<Data>::BST(const TraversableContainer<Data> &container){
-
+        
     }
 
     template <typename Data>
     BST<Data>::BST(MappableContainer<Data> &&container){
-
+        
     }
 
     template <typename Data>
@@ -193,7 +193,7 @@ namespace lasd {
     bool BST<Data>::Insert(const Data &data){
         NodeLnk *&node = FindPointerTo(root, data);
         if(node == nullptr){
-            node = new BinaryTreeLnk<Data>::NodeLnk(data);
+            node = new typename BinaryTreeLnk<Data>::NodeLnk(data);
             size++;
             return true;
         } else{
@@ -205,7 +205,7 @@ namespace lasd {
     bool BST<Data>::Insert(Data &&data) noexcept{
         NodeLnk *&node = FindPointerTo(root, data);
         if(node == nullptr){
-            node = new BinaryTreeLnk<Data>::NodeLnk(data);
+            node = new typename BinaryTreeLnk<Data>::NodeLnk(data);
             node -> Element() = std::move(data);
             size++;
             return true;
@@ -290,7 +290,7 @@ namespace lasd {
 
     template <typename Data>
     BST<Data>::NodeLnk *&BST<Data>::FindPointerToMin(NodeLnk *&node) noexcept{
-        return const_cast<NodeLnk *&>(static_cast BST<Data> *> (this) -> FindPointerToMin(node));
+        return const_cast<NodeLnk *&>(static_cast <const BST<Data> *> (this) -> FindPointerToMin(node));
     }
 
     template <typename Data>
@@ -305,7 +305,7 @@ namespace lasd {
 
     template <typename Data>
     BST<Data>::NodeLnk *&BST<Data>::FindPointerToMax(NodeLnk *&node) noexcept{
-        return const_cast<NodeLnk *&>(static_cast BST<Data> *> (this) -> FindPointerToMax(node));
+        return const_cast<NodeLnk *&>(static_cast <const BST<Data> *> (this) -> FindPointerToMax(node));
     }
 
     template <typename Data>
@@ -320,7 +320,7 @@ namespace lasd {
 
     template <typename Data>
     BST<Data>::NodeLnk *&BST<Data>::FindPointerTo(NodeLnk *&node, const Data &data) noexcept{
-        return const_cast<NodeLnk *&>(static_cast BST<Data> *> (this) -> FindPointerTo(node, data));
+        return const_cast<NodeLnk *&>(static_cast <const BST<Data> *> (this) -> FindPointerTo(node, data));
     }
 
     template <typename Data>
@@ -339,7 +339,7 @@ namespace lasd {
 
     template <typename Data>
     BST<Data>::NodeLnk **BST<Data>::FindPointerToPredecessor(NodeLnk *&node, const Data &data) noexcept{
-        return const_cast<NodeLnk **>(static_cast BST<Data> *> (this) -> FindPointerToPredecessor(node, data));
+        return const_cast<NodeLnk **>(static_cast <const BST<Data> *> (this) -> FindPointerToPredecessor(node, data));
     }
 
     template <typename Data>
@@ -363,7 +363,7 @@ namespace lasd {
 
     template <typename Data>
     BST<Data>::NodeLnk **BST<Data>::FindPointerToSuccessor(NodeLnk *&node, const Data &data) noexcept{
-        return const_cast<NodeLnk **>(static_cast BST<Data> *> (this) -> FindPointerToSuccessor(node, data));
+        return const_cast<NodeLnk **>(static_cast <const BST<Data> *> (this) -> FindPointerToSuccessor(node, data));
     }
 
     template <typename Data>

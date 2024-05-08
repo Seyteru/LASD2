@@ -8,6 +8,11 @@ namespace lasd {
     }
 
     template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk::NodeLnk(Data &&data) noexcept{
+        element = std::move(data);
+    }
+
+    template <typename Data>
     BinaryTreeLnk<Data>::NodeLnk::~NodeLnk(){
         if(left != nullptr){
             delete left;
@@ -44,7 +49,7 @@ namespace lasd {
     
 
     template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::NodeLnk::LeftChild(){
+    BinaryTreeLnk<Data>::MutableNode &BinaryTreeLnk<Data>::NodeLnk::LeftChild(){
         if(HasLeftChild()){
             return *left;
         } else{
@@ -53,7 +58,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::NodeLnk::RightChild(){
+    BinaryTreeLnk<Data>::MutableNode &BinaryTreeLnk<Data>::NodeLnk::RightChild(){
         if(HasLeftChild()){
             return *right;
         } else{
@@ -62,7 +67,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
+    const BinaryTreeLnk<Data>::Node &BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
         if(HasLeftChild()){
             return *left;
         } else{
@@ -71,7 +76,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
+    const BinaryTreeLnk<Data>::Node &BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
         if(HasLeftChild()){
             return *right;
         } else{
@@ -82,19 +87,37 @@ namespace lasd {
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(const TraversableContainer<Data> &container){
         size = container.Size();
-        root = CreateTree(container, 0, root);
+        QueueVec<NodeLnk**> que;
+        que.Enqueue(&root);
+        container.Traverse(
+            [&que](const Data &data){
+                NodeLnk *&curr = *que.HeadNDequeue();
+                curr = new NodeLnk(data);
+                que.Enqueue(&curr -> left);
+                que.Enqueue(&curr -> right);
+            }
+        );
     }
 
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(MappableContainer<Data> &&container){
         size = container.Size();
-        root = CreateTree(container, 0, root);
+        QueueVec<NodeLnk**> que;
+        que.Enqueue(&root);
+        container.Map(
+            [&que](const Data &data){
+                NodeLnk *&curr = *que.HeadNDequeue();
+                curr = new NodeLnk(std::move(data));
+                que.Enqueue(&curr -> left);
+                que.Enqueue(&curr -> right);
+            }
+        );
     }
 
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data> &binaryTree){
         size = binaryTree.size;
-        root = CreateTree(&binaryTree.Root());
+        root = CreateTree(binaryTree.root);
     }
 
     template <typename Data>
@@ -113,7 +136,7 @@ namespace lasd {
         Clear();
         if(!binaryTree.Empty()){
             size = binaryTree.size;
-            root = CreateTree(&binaryTree.Root());
+            root = CreateTree(binaryTree.root);
         }
         return *this;
     }
@@ -140,7 +163,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::Root() const{
+    const BinaryTreeLnk<Data>::Node &BinaryTreeLnk<Data>::Root() const{
         if(size != 0){
             return *root;
         } else{
@@ -149,7 +172,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::Root(){
+    BinaryTreeLnk<Data>::MutableNode &BinaryTreeLnk<Data>::Root(){
         if(size != 0){
             return *root;
         } else{
@@ -189,16 +212,14 @@ namespace lasd {
         return root;
     }
 
-    template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk *BinaryTreeLnk<Data>::CreateTree(NodeLnk *root){
-        NodeLnk *tempNode = new NodeLnk();
+    template<typename Data>
+    typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CreateTree(NodeLnk *root){
+        NodeLnk* tempNode = new NodeLnk();
         tempNode -> element = root -> Element();
-        if(root -> HasLeftChild()){
-            tempNode -> left = CreateTree(root -> left);
-        }
-        if(root -> HasRightChild()){
-            tempNode -> right = CreateTree(root -> right);
-        }
+        if(root -> HasLeftChild())
+        tempNode -> left = CreateTree (root -> left);
+        if(root -> HasRightChild())
+        tempNode -> right = CreateTree (root -> right);
         return tempNode;
     }
 

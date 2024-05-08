@@ -13,7 +13,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BST : virtual public ClearableContainer,virtual public DictionaryContainer<Data>, virtual public BinaryTree<Data>, public BinaryTreeLnk<Data>{
+class BST : virtual public ClearableContainer,virtual public DictionaryContainer<Data>, virtual public BinaryTree<Data>, virtual public BinaryTreeLnk<Data>{
   // Must extend ClearableContainer,
   //             DictionaryContainer<Data>,
   //             BinaryTree<Data>,
@@ -167,44 +167,44 @@ protected:
 
   // type DataNDelete(argument) specifiers;
 
-  virtual Data DataNDelete(NodeLnk *);
+  Data DataNDelete(NodeLnk *);
 
   // type Detach(argument) specifiers;
 
-  virtual NodeLnk *Detach(NodeLnk *&) noexcept;
+  NodeLnk *Detach(NodeLnk *&) noexcept;
 
   // type DetachMin(argument) specifiers;
   // type DetachMax(argument) specifiers;
 
-  virtual NodeLnk *DetachMin(NodeLnk *&) noexcept;
-  virtual NodeLnk *DetachMax(NodeLnk *&) noexcept;
+  NodeLnk *DetachMin(NodeLnk *&) noexcept;
+  NodeLnk *DetachMax(NodeLnk *&) noexcept;
 
   // type Skip2Left(argument) specifiers;
   // type Skip2Right(argument) specifiers;
 
-  virtual NodeLnk *Skip2Left(NodeLnk *&) noexcept;
-  virtual NodeLnk *Skip2Right(NodeLnk *&) noexcept;
+  NodeLnk *Skip2Left(NodeLnk *&) noexcept;
+  NodeLnk *Skip2Right(NodeLnk *&) noexcept;
 
   // type FindPointerToMin(argument) specifiers; // Both mutable & unmutable versions
   // type FindPointerToMax(argument) specifiers; // Both mutable & unmutable versions
 
-  virtual NodeLnk *&FindPointerToMin(NodeLnk *&) noexcept;
-  virtual const NodeLnk * const &FindPointerToMin(const NodeLnk * const &) const noexcept;
-  virtual NodeLnk *&FindPointerToMax(NodeLnk *&) noexcept;
-  virtual const NodeLnk * const &FindPointerToMax(const NodeLnk * const &) const noexcept;
+  NodeLnk *&FindPointerToMin(NodeLnk *&) noexcept;
+  const NodeLnk * const &FindPointerToMin(const NodeLnk * const &) const noexcept;
+  NodeLnk *&FindPointerToMax(NodeLnk *&) noexcept;
+  const NodeLnk * const &FindPointerToMax(const NodeLnk * const &) const noexcept;
 
   // type FindPointerTo(argument) specifiers; // Both mutable & unmutable versions
 
-  virtual NodeLnk *&FindPointerTo(NodeLnk *&, const Data &) noexcept;
-  virtual const NodeLnk * const &FindPointerTo(const NodeLnk * const &, const Data &) const noexcept;
+  NodeLnk *&FindPointerTo(NodeLnk *&, const Data &) noexcept;
+  const NodeLnk * const &FindPointerTo(const NodeLnk * const &, const Data &) const noexcept;
 
   // type FindPointerToPredecessor(argument) specifiers; // Both mutable & unmutable versions
   // type FindPointerToSuccessor(argument) specifiers; // Both mutable & unmutable versions
 
-  virtual NodeLnk **FindPointerToPredecessor(NodeLnk *&, const Data &) noexcept;
-  virtual const NodeLnk * const *FindPointerToPredecessor(const NodeLnk * const &, const Data &) const noexcept;
-  virtual NodeLnk **FindPointerToSuccessor(NodeLnk *&, const Data &) noexcept;
-  virtual const NodeLnk * const *FindPointerToSuccessor(const NodeLnk * const &, const Data &) const noexcept;
+  NodeLnk **FindPointerToPredecessor(NodeLnk *&, const Data &) noexcept;
+  const NodeLnk * const *FindPointerToPredecessor(const NodeLnk * const &, const Data &) const noexcept;
+  NodeLnk **FindPointerToSuccessor(NodeLnk *&, const Data &) noexcept;
+  const NodeLnk * const *FindPointerToSuccessor(const NodeLnk * const &, const Data &) const noexcept;
 
 };
 

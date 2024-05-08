@@ -24,9 +24,12 @@ private:
 protected:
 
   // ...
+
+  using Container::size;
   using typename BinaryTree<Data>::Node;
   using typename MutableBinaryTree<Data>::MutableNode;
-  using BinaryTree<Data>::size;
+
+protected:
 
   struct NodeVec : virtual MutableNode{ // Must extend MutableNode
 
@@ -42,7 +45,7 @@ protected:
 
     NodeVec() = default;
 
-    ~NodeVec();
+    ~NodeVec() = default;
 
     Data &Element() noexcept override;
     const Data &Element() const noexcept override;
@@ -51,13 +54,13 @@ protected:
     bool HasLeftChild() const noexcept override;
     bool HasRightChild() const noexcept override;
 
-    NodeVec &LeftChild() const override;
-    NodeVec &RightChild() const override;
-    NodeVec &LeftChild() override;
-    NodeVec &RightChild() override;
+    const Node &LeftChild() const override;
+    const Node &RightChild() const override;
+    MutableNode &LeftChild() override;
+    MutableNode &RightChild() override;
 
     Data element;
-    Vector<NodeVec*> *pvec = nullptr;
+    Vector<NodeVec*> *pvec;
     ulong idxNode;
 
   };
@@ -127,7 +130,7 @@ public:
 
   // type Root() specifiers; // Override BinaryTree member (throw std::length_error when empty)
 
-  NodeVec &Root() const override;
+  const Node &Root() const override;
 
   /* ************************************************************************ */
 
@@ -135,7 +138,7 @@ public:
 
   // type Root() specifiers; // Override MutableBinaryTree member (throw std::length_error when empty)
 
-  NodeVec &Root() override;
+  MutableNode &Root() override;
 
   /* ************************************************************************ */
 
@@ -151,8 +154,8 @@ public:
 
   // type BreadthTraverse(arguments) specifiers; // Override BreadthTraversableContainer member
 
-  using typename TraversableContainer<Data>::TraverseFun;
-  virtual void BreadthTraverse(TraverseFun) const override;
+  // using typename TraversableContainer<Data>::TraverseFun;
+  // virtual void BreadthTraverse(TraverseFun) const override;
 
   /* ************************************************************************ */
 
@@ -160,8 +163,8 @@ public:
 
   // type BreadthMap(arguments) specifiers; // Override BreadthMappableContainer member
 
-  using typename MappableContainer<Data>::MapFun;
-  virtual void BreadthMap(MapFun) override;
+  // using typename MappableContainer<Data>::MapFun;
+  // virtual void BreadthMap(MapFun) override;
 
 protected:
 
