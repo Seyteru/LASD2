@@ -10,9 +10,9 @@
 #include "../iterator/iterator.hpp"
 
 #include "../stack/vec/stackvec.hpp"
-// #include "../stack/lst/stacklst.hpp"
+#include "../stack/lst/stacklst.hpp"
 #include "../queue/vec/queuevec.hpp"
-// #include "../queue/lst/queuelst.hpp"
+#include "../queue/lst/queuelst.hpp"
 
 /* ************************************************************************** */
 
@@ -358,7 +358,7 @@ protected:
 
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
-  StackVec<const typename BinaryTree<Data>::Node *> stk;
+  StackLst<const typename BinaryTree<Data>::Node *> stk;
   const typename BinaryTree<Data>::Node *origin = nullptr;
 
 public:
@@ -452,8 +452,9 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr;
-  StackVec<typename BinaryTree<Data>::Node *> stk;
+  using BTPreOrderIterator<Data>::stk;
+  using BTPreOrderIterator<Data>::root;
+  using BTPreOrderIterator<Data>::origin;
 
 public:
 
@@ -527,9 +528,9 @@ protected:
 
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
-  StackVec<const typename BinaryTree<Data>::Node *> stk;
+  StackLst<const typename BinaryTree<Data>::Node *> stk;
   const typename BinaryTree<Data>::Node *origin = nullptr;
-  StackVec<const typename BinaryTree<Data>::Node *> stkOrigin;
+  StackLst<const typename BinaryTree<Data>::Node *> stkOrigin;
 
 public:
 
@@ -622,8 +623,10 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr;
-  StackVec<typename BinaryTree<Data>::Node *> stk;
+  using BTPostOrderIterator<Data>::root;
+  using BTPostOrderIterator<Data>::stk;
+  using BTPostOrderIterator<Data>::origin;
+  using BTPostOrderIterator<Data>::stkOrigin;
 
 public:
 
@@ -697,9 +700,9 @@ protected:
 
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
-  StackVec<const typename BinaryTree<Data>::Node *> stk;
+  StackLst<const typename BinaryTree<Data>::Node *> stk;
   const typename BinaryTree<Data>::Node *origin = nullptr;
-  StackVec<const typename BinaryTree<Data>::Node *> stkOrigin;
+  StackLst<const typename BinaryTree<Data>::Node *> stkOrigin;
 
 public:
 
@@ -792,8 +795,10 @@ private:
 protected:
 
   // ...
-  typename BinaryTree<Data>::Node *root = nullptr;
-  StackVec<typename BinaryTree<Data>::Node *> stk;
+  using BTInOrderIterator<Data>::root;
+  using BTInOrderIterator<Data>::stk;
+  using BTInOrderIterator<Data>::origin;
+  using BTInOrderIterator<Data>::stkOrigin;
 
 public:
 
@@ -867,7 +872,7 @@ protected:
 
   // ...
   const typename BinaryTree<Data>::Node *root = nullptr;
-  QueueVec<const typename BinaryTree<Data>::Node *> que;
+  QueueLst<const typename BinaryTree<Data>::Node *> que;
   const typename BinaryTree<Data>::Node *origin = nullptr;
 
 public:
@@ -963,6 +968,7 @@ protected:
   // ...
   using BTBreadthIterator<Data>::que;
   using BTBreadthIterator<Data>::root;
+  using BTBreadthIterator<Data>::origin;
 
 public:
 

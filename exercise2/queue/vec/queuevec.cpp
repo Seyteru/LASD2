@@ -4,60 +4,96 @@ namespace lasd {
 
     template <typename Data>
     QueueVec<Data>::QueueVec(){
-        Vector<Data>::Resize(2);
+        size = 2;
+        elements = new Data[size] {};
         head = 0;
-        tail = -1;
-        effectiveSize = 0;
+        tail = 0;
     }
 
     template <typename Data>
-    QueueVec<Data>::QueueVec(const QueueVec<Data> &queueVec) : Vector<Data>(queueVec){
+    QueueVec<Data>::QueueVec(const TraversableContainer<Data> &container){
+        size = (ulong)container.Size() * 1.5;
+        if(size < 2){
+            size = 2;
+        }
+        elements = new Data[size] {};
+        ulong index = 0;
+        container.Traverse(
+            [this, &index](const Data &data){
+                elements[index] = data;
+                Enqueue(elements[index]);
+                index++;
+            }
+        );
+        head = 0;
+        tail = container.Size();
+    }
+
+    template <typename Data>
+    QueueVec<Data>::QueueVec(MappableContainer<Data> &&container){
+        size = (ulong)container.Size() * 1.5;
+        if(size < 2){
+            size = 2;
+        }
+        elements = new Data[size] {};
+        ulong index = 0;
+        container.Map(
+            [this, &index](Data &data){
+                elements[index] = std::move(data);
+                Enqueue(elements[index]);
+                index++;
+            }
+        );
+        head = 0;
+        tail = container.Size();
+    }
+
+    template <typename Data>
+    QueueVec<Data>::QueueVec(const QueueVec<Data> &queueVec){
+        size = queueVec.size;
         head = queueVec.head;
         tail = queueVec.tail;
-        effectiveSize = queueVec.effectiveSize;
+        elements = new Data[size];
+        std::copy(queueVec.elements, queueVec.elements + queueVec.size, elements);
     }
 
     template <typename Data>
     QueueVec<Data>::QueueVec(QueueVec<Data> &&queueVec) noexcept{
+        std::swap(size, queueVec.size);
         std::swap(elements, queueVec.elements);
         std::swap(head, queueVec.head);
         std::swap(tail, queueVec.tail);
-        std::swap(effectiveSize, queueVec.effectiveSize);
     }
 
     template <typename Data>
     QueueVec<Data> &QueueVec<Data>::operator=(const QueueVec<Data> &queueVec){
-        Vector<Data>::operator=(queueVec);
-        head = queueVec.head;
-        tail = queueVec.tail;
-        effectiveSize = queueVec.effectiveSize;
+        QueueVec<Data> *tempQue = new QueueVec<Data>(queueVec);
+        std::swap(*tempQue, *this);
+        delete tempQue;
         return *this;
     }
 
     template <typename Data>
     QueueVec<Data> &QueueVec<Data>::operator=(QueueVec<Data> &&queueVec) noexcept{
-        Vector<Data>::operator=(std::move(queueVec));
-        head = queueVec.head;
-        tail = queueVec.tail;
-        effectiveSize = queueVec.effectiveSize;
+        std::swap(size, queueVec.size);
+        std::swap(elements, queueVec.elements);
+        std::swap(head, queueVec.head);
+        std::swap(tail, queueVec.tail);
         return *this;
     }
 
     template <typename Data>
     bool QueueVec<Data>::operator==(const QueueVec<Data> &queueVec) const noexcept{
-        if(size != queueVec.size){
+        if(Size() != queueVec.Size()){
             return false;
         } else{
-            bool result = true;
-            ulong idx = 0;
-            while(result && idx < size){
-                if(elements[idx] != queueVec.elements[idx]){
-                    result = false;
+            for(ulong i = 0; i < Size(); i++){
+                if(elements[(i + head) % size] != queueVec.elements[(i + queueVec.head) % queueVec.size]){
+                    return false;
                 }
-                idx++;
             }
-            return result;
-        }
+            return true;
+        }  
     }
 
     template <typename Data>
@@ -66,8 +102,8 @@ namespace lasd {
     }
 
     template <typename Data>
-    inline const Data &QueueVec<Data>::Head() const{
-        if(effectiveSize != 0){
+    const Data &QueueVec<Data>::Head() const{
+        if(!Empty()){
             return elements[head];
         } else{
             throw std::length_error("Invalid Access to An Empty Queue");
@@ -75,8 +111,8 @@ namespace lasd {
     }
 
     template <typename Data>
-    inline Data &QueueVec<Data>::Head(){
-        if(effectiveSize != 0){
+    Data &QueueVec<Data>::Head(){
+        if(!Empty()){
             return elements[head];
         } else{
             throw std::length_error("Invalid Access to An Empty Queue");
@@ -84,130 +120,94 @@ namespace lasd {
     }
 
     template <typename Data>
-    inline void QueueVec<Data>::Dequeue(){
-        if(effectiveSize <= size / 2){
+    void QueueVec<Data>::Dequeue(){
+        if(head == tail){
+            throw std::length_error("Invalid Access to An Empty Queue");
+        }
+        head = (head + 1) % size;
+        if(Size() <= size/4){
             Reduce();
         }
-        if(effectiveSize == 0){
-            throw std::length_error("Invalid Access to An Empty Queue");
-        } else{
-            head++;
-            head = head % Vector<Data>::Size();
-            effectiveSize--;
-        }
     }
 
     template <typename Data>
-    inline Data QueueVec<Data>::HeadNDequeue(){
+    Data QueueVec<Data>::HeadNDequeue(){
         Data dataRemoved = Head();
         Dequeue();
         return dataRemoved;
     }
 
     template <typename Data>
-    inline void QueueVec<Data>::Enqueue(const Data &data){
-        if(head == -1){
-            head = 0;
-        }
-        if(effectiveSize == Vector<Data>::Size()){
+    void QueueVec<Data>::Enqueue(const Data &data){
+        if(Size() == (size - 1)){
             Resize();
         }
-        tail++;
-        tail = (tail % Vector<Data>::Size());
         elements[tail] = data;
-        effectiveSize++;
+        tail = (tail + 1) % size;
     }
 
     template <typename Data>
-    inline void QueueVec<Data>::Enqueue(Data &&data) noexcept{
-        if(head == -1){
-            head = 0;
-        }
-        if(effectiveSize == size){
+    void QueueVec<Data>::Enqueue(Data &&data) noexcept{
+        if(Size() == (size - 1)){
             Resize();
         }
-        tail++;
-        tail = (tail % Vector<Data>::Size());
-        elements[tail] = std::move(data);
-        effectiveSize++;
+        std::swap(elements[tail], data);
+        tail = (tail + 1) % size;
     }
 
     template <typename Data>
     bool QueueVec<Data>::Empty() const noexcept{
-        if(effectiveSize == 0){
-            return true;
-        } else{
-            return false;
-        }
+        return (Size() == 0);
     }
 
     template <typename Data>
     ulong QueueVec<Data>::Size() const noexcept{
-        return effectiveSize;
+        if(head <= tail){
+            return (tail - head);
+        } else{
+            return (size - head - tail);
+        }
     }
 
     template <typename Data>
     void QueueVec<Data>::Clear(){
-        Vector<Data>::Clear();
-        Vector<Data>::Resize(2);
-        head = -1;
-        tail = -1;
-        effectiveSize = 0;
+        size = 2;
+        delete[] elements;
+        elements = new Data[size];
+        head = 0;
+        tail = 0;
     }
 
     template <typename Data>
     void QueueVec<Data>::Resize(){
-        Vector<Data> vector(size * 2);
-        long j = 0;
-        if(tail > head){
-            for(long i = head; i <= tail; i++){
-            vector[j] = elements[i];
-            j++;
+        if(head > tail){
+            Data *vector = new Data[size] {};
+            for(ulong i = 0; i < Size(); i++){
+                vector[i] = elements[(i + head) % size];
             }
+            delete[] elements;
+            elements = vector;
+            tail = Size();
+            head = 0;
         }
-        if(tail < head){
-            for(ulong i = head; i < Vector<Data>::Size(); i++){
-            vector[j] = elements[i];
-            j++;
-            }
-            for(long i = 0; i <= tail; i++){
-            vector[j] = elements[i];
-            j++;
-            }
-        }
-
-        Vector<Data>::operator=(vector);
-        head = 0;
-        tail = effectiveSize - 1;
-        size = vector.Size();
-        vector.Clear();
+        ulong newSize = size + (size / 2);
+        Vector<Data>::Resize(newSize);
     }
 
     template <typename Data>
     void QueueVec<Data>::Reduce(){
-        Vector<Data> vector(size - (size / 4));
-        long j = 0;
-        if(tail > head){
-            for(long i = head; i <= tail; i++){
-            vector[j] = elements[i];
-            j++;
-            }
+        Data *vector = new Data[size] {};
+        for(ulong i = 0; i < Size(); i++){
+            vector[i] = elements[(i + head) % size];
         }
-        if(tail < head){
-            for(ulong i = head; i < Vector<Data>::Size(); i++){
-            vector[j] = elements[i];
-            j++;
-            }
-            for(long i = 0; i <= tail; i++){
-            vector[j] = elements[i];
-            j++;
-            }
-        }
-
-        Vector<Data>::operator=(vector);
+        delete[] elements;
+        elements = vector;
+        tail = Size();
         head = 0;
-        tail = effectiveSize - 1;
-        size = vector.Size();
-        vector.Clear();
+        ulong newSize = (size / 2);
+        if(newSize < 2){
+            newSize = 2;
+        }
+        Vector<Data>::Resize(newSize);
     }
 }

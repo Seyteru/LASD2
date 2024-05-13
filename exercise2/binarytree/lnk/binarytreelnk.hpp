@@ -23,7 +23,7 @@ private:
 protected:
 
   // using BinaryTree<Data>::???;
-  using Container::size;
+  using BinaryTree<Data>::size;
 
 public:
 

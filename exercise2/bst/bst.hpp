@@ -13,7 +13,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BST : virtual public ClearableContainer,virtual public DictionaryContainer<Data>, virtual public BinaryTree<Data>, virtual public BinaryTreeLnk<Data>{
+class BST : virtual public ClearableContainer,virtual public DictionaryContainer<Data>, virtual public BinaryTree<Data>, virtual protected BinaryTreeLnk<Data>{
   // Must extend ClearableContainer,
   //             DictionaryContainer<Data>,
   //             BinaryTree<Data>,
@@ -26,12 +26,13 @@ private:
 protected:
 
   // using BinaryTreeLnk<Data>::???;
-  using typename BinaryTreeLnk<Data>::NodeLnk;
   using BinaryTreeLnk<Data>::size;
   using BinaryTreeLnk<Data>::root;
   // ...
 
 public:
+
+  using typename BinaryTreeLnk<Data>::NodeLnk;
 
   // Default constructor
   // BST() specifiers;
@@ -44,39 +45,39 @@ public:
   // BST(argument) specifiers; // A bst obtained from a TraversableContainer
   // BST(argument) specifiers; // A bst obtained from a MappableContainer
 
-  BST(const TraversableContainer<Data> &);
-  BST(MappableContainer<Data> &&);
+  BST(const TraversableContainer<Data> &container) : BinaryTreeLnk<Data>(container) {};
+  BST(MappableContainer<Data> &&container) : BinaryTreeLnk<Data>(std::move(container)) {};
 
   /* ************************************************************************ */
 
   // Copy constructor
   // BST(argument) specifiers;
 
-  BST(const BST<Data> &binaryTree) : BinaryTreeLnk<Data>::BinaryTreeLnk(binaryTree) {};
+  BST(const BST<Data> &);
 
   // Move constructor
   // BST(argument) specifiers;
 
-  BST(BST<Data> &&binaryTree) noexcept : BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(binaryTree)) {};
+  BST(BST<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
   // ~BST() specifiers;
 
-  ~BST();
+  ~BST() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
   // type operator=(argument) specifiers;
 
-  BST &operator=(const BST &);
+  BST &operator=(const BST<Data> &);
 
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BST &operator=(BST &&) noexcept;
+  BST &operator=(BST<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -85,9 +86,9 @@ public:
   // type operator!=(argument) specifiers;
 
   using BinaryTree<Data>::operator==;
-  inline bool operator==(const BST &) const noexcept;
+  inline bool operator==(const BST<Data> &) const noexcept;
   using BinaryTree<Data>::operator!=;
-  inline bool operator!=(const BST &) const noexcept;
+  inline bool operator!=(const BST<Data> &) const noexcept;
 
   /* ************************************************************************ */
 
@@ -97,33 +98,33 @@ public:
   // type MinNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
   // type RemoveMin(argument) specifiers; // (concrete function must throw std::length_error when empty)
 
-  virtual const Data &Min() const;
-  virtual Data MinNRemove();
-  virtual void RemoveMin() const;
+  const Data &Min() const;
+  Data MinNRemove();
+  void RemoveMin();
 
   // type Max(argument) specifiers; // (concrete function must throw std::length_error when empty)
   // type MaxNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
   // type RemoveMax(argument) specifiers; // (concrete function must throw std::length_error when empty)
 
-  virtual const Data &Max() const;
-  virtual Data MaxNRemove();
-  virtual void RemoveMax() const;
+  const Data &Max() const;
+  Data MaxNRemove();
+  void RemoveMax();
 
   // type Predecessor(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type PredecessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type RemovePredecessor(argument) specifiers; // (concrete function must throw std::length_error when not found)
 
-  virtual const Data &Predecessor(const Data &) const;
-  virtual Data PredecessorNRemove(const Data &);
-  virtual void RemovePredecessor(const Data &) const;
+  const Data &Predecessor(const Data &) const;
+  Data PredecessorNRemove(const Data &);
+  void RemovePredecessor(const Data &);
 
   // type Successor(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type SuccessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when not found)
   // type RemoveSuccessor(argument) specifiers; // (concrete function must throw std::length_error when not found)
 
-  virtual const Data &Successor(const Data &) const;
-  virtual Data SuccessorNRemove(const Data &);
-  virtual void RemoveSuccessor(const Data &) const;
+  const Data &Successor(const Data &) const;
+  Data SuccessorNRemove(const Data &);
+  void RemoveSuccessor(const Data &);
 
   /* ************************************************************************ */
 
@@ -189,22 +190,22 @@ protected:
   // type FindPointerToMax(argument) specifiers; // Both mutable & unmutable versions
 
   NodeLnk *&FindPointerToMin(NodeLnk *&) noexcept;
-  const NodeLnk * const &FindPointerToMin(const NodeLnk * const &) const noexcept;
+  NodeLnk * const &FindPointerToMin(NodeLnk * const &) const noexcept;
   NodeLnk *&FindPointerToMax(NodeLnk *&) noexcept;
-  const NodeLnk * const &FindPointerToMax(const NodeLnk * const &) const noexcept;
+  NodeLnk * const &FindPointerToMax(NodeLnk * const &) const noexcept;
 
   // type FindPointerTo(argument) specifiers; // Both mutable & unmutable versions
 
   NodeLnk *&FindPointerTo(NodeLnk *&, const Data &) noexcept;
-  const NodeLnk * const &FindPointerTo(const NodeLnk * const &, const Data &) const noexcept;
+  NodeLnk * const &FindPointerTo(NodeLnk * const &, const Data &) const noexcept;
 
   // type FindPointerToPredecessor(argument) specifiers; // Both mutable & unmutable versions
   // type FindPointerToSuccessor(argument) specifiers; // Both mutable & unmutable versions
 
   NodeLnk **FindPointerToPredecessor(NodeLnk *&, const Data &) noexcept;
-  const NodeLnk * const *FindPointerToPredecessor(const NodeLnk * const &, const Data &) const noexcept;
+  NodeLnk * const *FindPointerToPredecessor(NodeLnk * const &, const Data &) const noexcept;
   NodeLnk **FindPointerToSuccessor(NodeLnk *&, const Data &) noexcept;
-  const NodeLnk * const *FindPointerToSuccessor(const NodeLnk * const &, const Data &) const noexcept;
+  NodeLnk * const *FindPointerToSuccessor(NodeLnk * const &, const Data &) const noexcept;
 
 };
 

@@ -87,7 +87,7 @@ namespace lasd {
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(const TraversableContainer<Data> &container){
         size = container.Size();
-        QueueVec<NodeLnk**> que;
+        QueueLst<NodeLnk**> que;
         que.Enqueue(&root);
         container.Traverse(
             [&que](const Data &data){
@@ -102,7 +102,7 @@ namespace lasd {
     template <typename Data>
     BinaryTreeLnk<Data>::BinaryTreeLnk(MappableContainer<Data> &&container){
         size = container.Size();
-        QueueVec<NodeLnk**> que;
+        QueueLst<NodeLnk**> que;
         que.Enqueue(&root);
         container.Map(
             [&que](const Data &data){

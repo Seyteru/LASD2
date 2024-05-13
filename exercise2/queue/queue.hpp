@@ -28,7 +28,7 @@ public:
 
   // Destructor
   // ~Queue() specifiers
-  ~Queue() = default;
+  virtual ~Queue() = default;
   /* ************************************************************************ */
 
   // Copy assignment

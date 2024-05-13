@@ -27,9 +27,8 @@ protected:
   // using Vector<Data>::???;
   using Vector<Data>::elements;
   using Vector<Data>::size;
-  int head = 0;
-  int tail = -1;
-  ulong effectiveSize = 0;
+  ulong head = 0;
+  ulong tail = 0;
   // ...
 
 public:
@@ -45,8 +44,8 @@ public:
   // QueueVec(argument) specifiers; // A stack obtained from a TraversableContainer
   // QueueVec(argument) specifiers; // A stack obtained from a MappableContainer
 
-  QueueVec(const TraversableContainer<Data> &container) : Vector<Data>(container){};
-  QueueVec(MappableContainer<Data> &&container) : Vector<Data>(std::move(container)){};
+  QueueVec(const TraversableContainer<Data> &);
+  QueueVec(MappableContainer<Data> &&);
 
   /* ************************************************************************ */
 
@@ -99,12 +98,12 @@ public:
   // type Enqueue(argument) specifiers; // Override Queue member (copy of the value)
   // type Enqueue(argument) specifiers; // Override Queue member (move of the value)
 
-  inline const Data &Head() const override;
-  inline Data &Head() override;
-  inline void Dequeue() override;
-  inline Data HeadNDequeue() override;
-  inline void Enqueue(const Data &) override;
-  inline void Enqueue(Data &&) noexcept override;
+  const Data &Head() const override;
+  Data &Head() override;
+  void Dequeue() override;
+  Data HeadNDequeue() override;
+  void Enqueue(const Data &) override;
+  void Enqueue(Data &&) noexcept override;
 
   /* ************************************************************************ */
 

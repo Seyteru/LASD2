@@ -29,7 +29,7 @@ public:
   // Destructor
   // ~Stack() specifiers
 
-  ~Stack() = default;
+  virtual ~Stack() = default;
 
   /* ************************************************************************ */
 
