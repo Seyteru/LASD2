@@ -45,8 +45,8 @@ public:
   // BST(argument) specifiers; // A bst obtained from a TraversableContainer
   // BST(argument) specifiers; // A bst obtained from a MappableContainer
 
-  BST(const TraversableContainer<Data> &container) : BinaryTreeLnk<Data>(container) {};
-  BST(MappableContainer<Data> &&container) : BinaryTreeLnk<Data>(std::move(container)) {};
+  BST(const TraversableContainer<Data> &);
+  BST(MappableContainer<Data> &&);
 
   /* ************************************************************************ */
 
@@ -86,9 +86,9 @@ public:
   // type operator!=(argument) specifiers;
 
   using BinaryTree<Data>::operator==;
-  inline bool operator==(const BST<Data> &) const noexcept;
+  bool operator==(const BST<Data> &) const noexcept;
   using BinaryTree<Data>::operator!=;
-  inline bool operator!=(const BST<Data> &) const noexcept;
+  bool operator!=(const BST<Data> &) const noexcept;
 
   /* ************************************************************************ */
 

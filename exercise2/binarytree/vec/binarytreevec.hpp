@@ -25,7 +25,10 @@ protected:
 
   // ...
 
-  using Container::size;
+  using MutableBinaryTree<Data>::size;
+
+public:
+
   using typename BinaryTree<Data>::Node;
   using typename MutableBinaryTree<Data>::MutableNode;
 
@@ -43,7 +46,17 @@ protected:
 
   public:
 
+
     NodeVec() = default;
+
+    NodeVec(const Data &);
+    NodeVec(Data &&) noexcept;
+
+    NodeVec(const NodeVec &);
+    NodeVec(NodeVec &&) noexcept;
+
+    NodeVec &operator=(const NodeVec &);
+    NodeVec &operator=(NodeVec &&) noexcept;
 
     ~NodeVec() = default;
 
@@ -65,7 +78,7 @@ protected:
 
   };
 
-  Vector<NodeVec*> vec;
+  Vector<NodeVec *> vec;
 
 public:
 
@@ -154,8 +167,8 @@ public:
 
   // type BreadthTraverse(arguments) specifiers; // Override BreadthTraversableContainer member
 
-  // using typename TraversableContainer<Data>::TraverseFun;
-  // virtual void BreadthTraverse(TraverseFun) const override;
+  using typename TraversableContainer<Data>::TraverseFun;
+  virtual void BreadthTraverse(TraverseFun) const override;
 
   /* ************************************************************************ */
 
@@ -163,8 +176,8 @@ public:
 
   // type BreadthMap(arguments) specifiers; // Override BreadthMappableContainer member
 
-  // using typename MappableContainer<Data>::MapFun;
-  // virtual void BreadthMap(MapFun) override;
+  using typename MappableContainer<Data>::MapFun;
+  virtual void BreadthMap(MapFun) override;
 
 protected:
 

@@ -13,6 +13,36 @@ namespace lasd {
     }
 
     template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk::NodeLnk(const NodeLnk &node){
+        left = node.left;
+        right = node.right;
+        element = node.element;
+    }
+
+    template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk::NodeLnk(NodeLnk &&node) noexcept{
+        std::swap(left, node.left);
+        std::swap(right, node.right);
+        std::swap(element, node.element);
+    }
+
+    template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::NodeLnk::operator=(const NodeLnk &node){
+        left = node.left;
+        right = node.right;
+        element = node.element;
+        return *this;
+    }
+
+    template <typename Data>
+    BinaryTreeLnk<Data>::NodeLnk &BinaryTreeLnk<Data>::NodeLnk::operator=(NodeLnk &&node) noexcept{
+        std::swap(left, node.left);
+        std::swap(right, node.right);
+        std::swap(element, node.element);
+        return *this;
+    }
+
+    template <typename Data>
     BinaryTreeLnk<Data>::NodeLnk::~NodeLnk(){
         if(left != nullptr){
             delete left;
@@ -59,7 +89,7 @@ namespace lasd {
 
     template <typename Data>
     BinaryTreeLnk<Data>::MutableNode &BinaryTreeLnk<Data>::NodeLnk::RightChild(){
-        if(HasLeftChild()){
+        if(HasRightChild()){
             return *right;
         } else{
             throw std::out_of_range("Node does NOT have RightChild");
@@ -77,7 +107,7 @@ namespace lasd {
 
     template <typename Data>
     const BinaryTreeLnk<Data>::Node &BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
-        if(HasLeftChild()){
+        if(HasRightChild()){
             return *right;
         } else{
             throw std::out_of_range("Node does NOT have RightChild");
@@ -150,21 +180,17 @@ namespace lasd {
 
     template <typename Data>
     bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk<Data> &binaryTree) const noexcept{
-        if(size != binaryTree.size){
-            return false;
-        } else{
-            return (Root() == binaryTree.Root());
-        }
+        return BinaryTree<Data>::operator==(binaryTree);
     }
 
     template <typename Data>
     bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk<Data> &binaryTree) const noexcept{
-        return !(*this == binaryTree);
+        return BinaryTree<Data>::operator!=(binaryTree);
     }
 
     template <typename Data>
     const BinaryTreeLnk<Data>::Node &BinaryTreeLnk<Data>::Root() const{
-        if(size != 0){
+        if(root != nullptr){
             return *root;
         } else{
             throw std::length_error("Binary Tree is Empty");
@@ -173,7 +199,7 @@ namespace lasd {
 
     template <typename Data>
     BinaryTreeLnk<Data>::MutableNode &BinaryTreeLnk<Data>::Root(){
-        if(size != 0){
+        if(root != nullptr){
             return *root;
         } else{
             throw std::length_error("Binary Tree is Empty");
@@ -182,34 +208,11 @@ namespace lasd {
 
     template <typename Data>
     void BinaryTreeLnk<Data>::Clear(){
-        if(size != 0){
+        if(root != nullptr){
             delete root;
             root = nullptr;
             size = 0;
         }
-    }
-
-    template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk *BinaryTreeLnk<Data>::CreateTree(const TraversableContainer<Data> &container, ulong idx, NodeLnk *root){
-        Vector<Data> vec(container);
-        if(idx < container.Size()){
-            root = new NodeLnk(vec[idx]);
-            root -> left = CreateTree(container, (idx * 2) + 1, root -> left);
-            root -> right = CreateTree(container, (idx * 2) + 2, root -> right);
-        }
-        vec.Clear();
-        return root;
-    }
-
-    template <typename Data>
-    BinaryTreeLnk<Data>::NodeLnk *BinaryTreeLnk<Data>::CreateTree(MappableContainer<Data> &&container, ulong idx, NodeLnk *root){
-        Vector<Data> vec(std::move(container));
-        if(idx < container.Size()){
-            root = new NodeLnk(std::move(vec[idx]));
-            root -> left = CreateTree(container, (idx * 2) + 1, root -> left);
-            root -> right = CreateTree(container, (idx * 2) + 2, root -> right);
-        }
-        return root;
     }
 
     template<typename Data>
@@ -217,9 +220,9 @@ namespace lasd {
         NodeLnk* tempNode = new NodeLnk();
         tempNode -> element = root -> Element();
         if(root -> HasLeftChild())
-        tempNode -> left = CreateTree (root -> left);
+        tempNode -> left = CreateTree(root -> left);
         if(root -> HasRightChild())
-        tempNode -> right = CreateTree (root -> right);
+        tempNode -> right = CreateTree(root -> right);
         return tempNode;
     }
 

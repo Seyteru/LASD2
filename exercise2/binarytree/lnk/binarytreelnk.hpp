@@ -23,7 +23,7 @@ private:
 protected:
 
   // using BinaryTree<Data>::???;
-  using BinaryTree<Data>::size;
+  using MutableBinaryTree<Data>::size;
 
 public:
 
@@ -45,14 +45,17 @@ protected:
   public:
 
     NodeLnk() = default;
+
     NodeLnk(const Data &);
     NodeLnk(Data &&) noexcept;
 
-    ~NodeLnk();
+    NodeLnk(const NodeLnk &);
+    NodeLnk(NodeLnk &&) noexcept;
 
-    Data element;
-    NodeLnk *right = nullptr;
-    NodeLnk *left = nullptr;
+    NodeLnk &operator=(const NodeLnk &);
+    NodeLnk &operator=(NodeLnk &&) noexcept;
+
+    ~NodeLnk();
 
     Data &Element() noexcept override;
     const Data &Element() const noexcept override;
@@ -65,6 +68,10 @@ protected:
     virtual const Node &RightChild() const override;
     virtual MutableNode &LeftChild() override;
     virtual MutableNode &RightChild() override;
+
+    Data element;
+    NodeLnk *right = nullptr;
+    NodeLnk *left = nullptr;
 
   };
 
@@ -150,8 +157,6 @@ public:
 
   void Clear() override;
 
-  NodeLnk *CreateTree(const TraversableContainer<Data> &, ulong, NodeLnk *);
-  NodeLnk *CreateTree(MappableContainer<Data> &&, ulong, NodeLnk *);
   NodeLnk *CreateTree(NodeLnk *);
 
 };

@@ -52,7 +52,9 @@ namespace lasd {
     // Traverse and TraverseAuxiliary Functions
     template <typename Data>
     void BinaryTree<Data>::Traverse(TraverseFun traverseFun) const{
-        PreOrderTraverse(traverseFun);
+        if(!(this -> Empty())){
+            PreOrderTraverse(traverseFun, Root());
+        }
     }
 
     template <typename Data>
@@ -301,7 +303,6 @@ namespace lasd {
             }
         } else{
             root = nullptr;
-            stk.Clear();
             throw std::out_of_range("PreOrderIterator Terminated ");
         }
         return *this;
@@ -374,17 +375,19 @@ namespace lasd {
     // PostOrderIterator
     template <typename Data>
     inline BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data> &binaryTree){
-        root = &binaryTree.Root();
-        while(root -> HasLeftChild() || root -> HasRightChild()){
-            stk.Push(root);
-            if(root -> HasLeftChild()){
-                root = &root -> LeftChild();
-            } else{
-                root = &root -> RightChild();
-            }
+        if(!binaryTree.Empty()){
+            root = &binaryTree.Root();
+            while(root -> HasLeftChild() || root -> HasRightChild()){
+                stk.Push(root);
+                if(root -> HasLeftChild()){
+                    root = &root -> LeftChild();
+                } else{
+                    root = &root -> RightChild();
+                }   
         }
-        origin = root;
-        stkOrigin = stk;
+            origin = root;
+            stkOrigin = stk;
+        }
     }
 
     template <typename Data>
@@ -484,17 +487,19 @@ namespace lasd {
     //PostOrderMutableIterator
     template <typename Data>
     inline BTPostOrderMutableIterator<Data>::BTPostOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-        root = &mutBinaryTree.Root();
-        while(root -> HasLeftChild() || root -> HasRightChild()){
-            stk.Push(root);
-            if(root -> HasLeftChild()){
-                root = &root -> LeftChild();
-            } else{
-                root = &root -> RightChild();
+        if(!mutBinaryTree.Empty()){
+            root = &mutBinaryTree.Root();
+            while(root -> HasLeftChild() || root -> HasRightChild()){
+                stk.Push(root);
+                if(root -> HasLeftChild()){
+                    root = &root -> LeftChild();
+                } else{
+                    root = &root -> RightChild();
+                }
             }
+            origin = root;
+            stkOrigin = stk;
         }
-        origin = root;
-        stkOrigin = stk;
     }
 
     template <typename Data>
@@ -553,13 +558,17 @@ namespace lasd {
     // InOrderIterator
     template <typename Data>
     inline BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data> &binaryTree){
-        root = &binaryTree.Root();
-        while(root -> HasLeftChild()){
+        if(!binaryTree.Empty()){
+            root = &binaryTree.Root();
             stk.Push(root);
-            root = &root -> LeftChild();
+            while(root -> HasLeftChild()){
+                root = &root -> LeftChild();
+                stk.Push(root);
+            }
+            stk.Pop();
+            origin = root;
+            stkOrigin = stk;
         }
-        origin = root;
-        stkOrigin = stk;
     }
 
     template <typename Data>
@@ -630,10 +639,10 @@ namespace lasd {
                 }
             } else{
                 if(root -> HasRightChild()){
-                    root = &root -> RightChild();
+                    root = &(root -> RightChild());
                     while(root -> HasLeftChild()){
                         stk.Push(root);
-                        root = &root -> LeftChild();
+                        root = &(root -> LeftChild());
                     }
                 } else{
                     if(stk.Empty()){
@@ -658,13 +667,15 @@ namespace lasd {
     // InOrderMutableIterator
     template <typename Data>
     inline BTInOrderMutableIterator<Data>::BTInOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-        root = &mutBinaryTree.Root();
-        while(root -> HasLeftChild()){
-            stk.Push(root);
-            root = &root -> LeftChild();
+        if(!mutBinaryTree.Empty()){
+            root = &mutBinaryTree.Root();
+            while(root -> HasLeftChild()){
+                stk.Push(root);
+                root = &root -> LeftChild();
+            }
+            origin = root;
+            stkOrigin = stk;
         }
-        origin = root;
-        stkOrigin = stk;
     }
 
     template <typename Data>
@@ -723,7 +734,7 @@ namespace lasd {
     // BreadthIterator
     template <typename Data>
     inline BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data> &binaryTree){
-        if(binaryTree.Size() != 0){
+        if(!binaryTree.Empty()){
             root = &binaryTree.Root();
             origin = root;
         }
@@ -813,7 +824,7 @@ namespace lasd {
     // BreadthMutableIterator
     template <typename Data>
     inline BTBreadthMutableIterator<Data>::BTBreadthMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-        if(mutBinaryTree.Size() != 0){
+        if(!mutBinaryTree.Empty()){
             root = &mutBinaryTree.Root();
             origin = root;
         }

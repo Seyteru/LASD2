@@ -3,6 +3,36 @@
 namespace lasd {
 
     template <typename Data>
+    BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &){
+
+    }
+
+    template <typename Data>
+    BinaryTreeVec<Data>::NodeVec::NodeVec(Data &&) noexcept{
+        
+    }
+
+    template <typename Data>
+    BinaryTreeVec<Data>::NodeVec::NodeVec(const NodeVec &){
+
+    }
+
+    template <typename Data>
+    BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec &&) noexcept{
+        
+    }
+
+    template <typename Data>
+    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec &){
+        
+    }
+
+    template <typename Data>
+    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::operator=(NodeVec &&) noexcept{
+        
+    }
+
+    template <typename Data>
     Data &BinaryTreeVec<Data>::NodeVec::Element() noexcept{
         return element;
     }
@@ -191,14 +221,18 @@ namespace lasd {
         size = 0;
     }
 
-//     template <typename Data>
-//     void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun traverseFun) const{
-        
-//     }
+    template <typename Data>
+    void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun traverseFun) const{
+        for(ulong i = 0; i < size; i++){
+            traverseFun(vec[i] -> element);
+        }
+    }
 
-//     template <typename Data>
-//     void BinaryTreeVec<Data>::BreadthMap(MapFun mapFun){
-        
-//     }
+    template <typename Data>
+    void BinaryTreeVec<Data>::BreadthMap(MapFun mapFun){
+        for(ulong i = 0; i < size; i++){
+            mapFun(vec[i] -> element);
+        }
+    }
 
 }
