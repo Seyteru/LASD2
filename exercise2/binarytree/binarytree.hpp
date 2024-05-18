@@ -461,19 +461,19 @@ public:
   // Specific constructors
   // BTPreOrderMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTPreOrderMutableIterator(MutableBinaryTree<Data> &);
+  BTPreOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree) : BTPreOrderIterator<Data>(mutBinaryTree) {};
 
   /* ************************************************************************ */
 
   // Copy constructor
   // BTPreOrderMutableIterator(argument) specifiers;
 
-  BTPreOrderMutableIterator(const BTPreOrderMutableIterator<Data> &);
+  BTPreOrderMutableIterator(const BTPreOrderMutableIterator<Data> &preItr) : BTPreOrderIterator<Data>(preItr) {};
 
   // Move constructor
   // BTPreOrderMutableIterator(argument) specifiers;
 
-  BTPreOrderMutableIterator(BTPreOrderMutableIterator<Data> &&) noexcept;
+  BTPreOrderMutableIterator(BTPreOrderMutableIterator<Data> &&preItr) noexcept : BTPreOrderIterator<Data>(std::move(preItr)) {};
 
   /* ************************************************************************ */
 
@@ -633,19 +633,19 @@ public:
   // Specific constructors
   // BTPostOrderMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTPostOrderMutableIterator(MutableBinaryTree<Data> &);
+  BTPostOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree) : BTPostOrderIterator<Data>(mutBinaryTree) {};
 
   /* ************************************************************************ */
 
   // Copy constructor
   // BTPostOrderMutableIterator(argument) specifiers;
 
-  BTPostOrderMutableIterator(const BTPostOrderMutableIterator<Data> &);
+  BTPostOrderMutableIterator(const BTPostOrderMutableIterator<Data> &postItr) : BTPostOrderIterator<Data>(postItr) {};
 
   // Move constructor
   // BTPostOrderMutableIterator(argument) specifiers;
 
-  BTPostOrderMutableIterator(BTPostOrderMutableIterator<Data> &&) noexcept;
+  BTPostOrderMutableIterator(BTPostOrderMutableIterator<Data> &&postItr) noexcept : BTPostOrderIterator<Data>(std::move(postItr)) {};
 
   /* ************************************************************************ */
 
@@ -805,19 +805,19 @@ public:
   // Specific constructors
   // BTInOrderMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTInOrderMutableIterator(MutableBinaryTree<Data> &);
+  BTInOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree) : BTInOrderIterator<Data>(mutBinaryTree) {};
 
   /* ************************************************************************ */
 
   // Copy constructor
   // BTInOrderMutableIterator(argument) specifiers;
 
-  BTInOrderMutableIterator(const BTInOrderMutableIterator<Data> &);
+  BTInOrderMutableIterator(const BTInOrderMutableIterator<Data> &inItr) : BTInOrderIterator<Data>(inItr) {};
 
   // Move constructor
   // BTInOrderMutableIterator(argument) specifiers;
 
-  BTInOrderMutableIterator(BTInOrderMutableIterator<Data> &&) noexcept;
+  BTInOrderMutableIterator(BTInOrderMutableIterator<Data> &&inItr) noexcept : BTInOrderIterator<Data>(std::move(inItr)) {};
 
   /* ************************************************************************ */
 
@@ -975,19 +975,19 @@ public:
   // Specific constructors
   // BTBreadthMutableIterator(argument) specifiers; // An iterator over a given mutable binary tree
 
-  BTBreadthMutableIterator(MutableBinaryTree<Data> &);
+  BTBreadthMutableIterator(MutableBinaryTree<Data> &mutBinaryTree) : BTBreadthIterator<Data>(mutBinaryTree) {};
 
   /* ************************************************************************ */
 
   // Copy constructor
   // BTBreadthMutableIterator(argument) specifiers;
 
-  BTBreadthMutableIterator(const BTBreadthMutableIterator<Data> &);
+  BTBreadthMutableIterator(const BTBreadthMutableIterator<Data> &breItr) : BTBreadthIterator<Data>(breItr) {};
 
   // Move constructor
   // BTBreadthMutableIterator(argument) specifiers;
 
-  BTBreadthMutableIterator(BTBreadthMutableIterator<Data> &&) noexcept;
+  BTBreadthMutableIterator(BTBreadthMutableIterator<Data> &&breItr) noexcept : BTBreadthIterator<Data>(std::move(breItr)) {};
 
   /* ************************************************************************ */
 

@@ -215,6 +215,22 @@ namespace lasd {
         }
     }
 
+    template <typename Data>
+    bool BinaryTreeLnk<Data>::Exists(const Data &data) const noexcept{
+        if(size == 0){
+            return false;
+        }else{
+            BTInOrderIterator<Data> itr1(*this);
+            while(!itr1.Terminated()){
+                if(*itr1 == data){
+                    return true;
+                }
+                ++itr1;
+            }
+            return false;
+        }
+    }
+
     template<typename Data>
     typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CreateTree(NodeLnk *root){
         NodeLnk* tempNode = new NodeLnk();

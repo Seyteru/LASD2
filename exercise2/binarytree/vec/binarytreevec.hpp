@@ -161,6 +161,8 @@ public:
 
   void Clear() override;
 
+  bool Exists(const Data &) const noexcept override;
+
   /* ************************************************************************ */
 
   // Specific member function (inherited from BreadthTraversableContainer)

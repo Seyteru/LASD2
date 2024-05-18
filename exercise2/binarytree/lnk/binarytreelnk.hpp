@@ -157,6 +157,8 @@ public:
 
   void Clear() override;
 
+  bool Exists(const Data &) const noexcept override;
+
   NodeLnk *CreateTree(NodeLnk *);
 
 };

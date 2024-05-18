@@ -3,33 +3,43 @@
 namespace lasd {
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &){
-
+    BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &data){
+        element = data;
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec::NodeVec(Data &&) noexcept{
-        
+    BinaryTreeVec<Data>::NodeVec::NodeVec(Data &&data) noexcept{
+        std::swap(element, data);
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec::NodeVec(const NodeVec &){
-
+    BinaryTreeVec<Data>::NodeVec::NodeVec(const NodeVec &node){
+        element = node.element;
+        pvec = node.pvec;
+        idxNode = node.idxNode;
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec &&) noexcept{
-        
+    BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec &&node) noexcept{
+        std::swap(element, node.element);
+        std::swap(pvec, node.pvec);
+        std::swap(idxNode, node.idxNode);
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec &){
-        
+    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec &node){
+        element = node.element;
+        pvec = node.pvec;
+        idxNode = node.idxNode;
+        return *this;
     }
 
     template <typename Data>
-    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::operator=(NodeVec &&) noexcept{
-        
+    BinaryTreeVec<Data>::NodeVec &BinaryTreeVec<Data>::NodeVec::operator=(NodeVec &&node) noexcept{
+        std::swap(element, node.element);
+        std::swap(pvec, node.pvec);
+        std::swap(idxNode, node.idxNode);
+        return *this;
     }
 
     template <typename Data>
@@ -219,6 +229,23 @@ namespace lasd {
         }
         vec.Clear();
         size = 0;
+    }
+
+    template <typename Data>
+    bool BinaryTreeVec<Data>::Exists(const Data &data) const noexcept{
+        if(size == 0){
+            return false;
+        } else{
+            ulong i = 0;
+            while(i < size){
+                if(vec[i] -> Element() == data){
+                    return true;
+                } else{
+                    i++;
+                }
+            }
+            return false;
+        }
     }
 
     template <typename Data>

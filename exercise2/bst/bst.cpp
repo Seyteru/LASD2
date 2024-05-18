@@ -36,6 +36,11 @@ namespace lasd {
     }
 
     template <typename Data>
+    BST<Data>::~BST(){
+        Clear();
+    }
+
+    template <typename Data>
     BST<Data> &BST<Data>::operator=(const BST<Data> &bst){
         BinaryTreeLnk<Data>::operator=(bst);
         return *this;
