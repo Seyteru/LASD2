@@ -487,12 +487,18 @@ public:
   // Copy assignment
   // type operator=(argument) specifiers;
 
-  BTPreOrderMutableIterator &operator=(const BTPreOrderMutableIterator<Data> &);
+  BTPreOrderMutableIterator &operator=(const BTPreOrderMutableIterator<Data> &preItr){
+    BTPreOrderIterator<Data>::operator=(preItr);
+    return *this;
+  }
 
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BTPreOrderMutableIterator &operator=(BTPreOrderMutableIterator<Data> &&) noexcept;
+  BTPreOrderMutableIterator &operator=(BTPreOrderMutableIterator<Data> &&preItr) noexcept{
+    BTPreOrderIterator<Data>::operator=(std::move(preItr));
+    return *this;
+  }
 
   /* ************************************************************************ */
 
@@ -659,12 +665,18 @@ public:
   // Copy assignment
   // type operator=(argument) specifiers;
 
-  BTPostOrderMutableIterator &operator=(const BTPostOrderMutableIterator<Data> &);
+  BTPostOrderMutableIterator &operator=(const BTPostOrderMutableIterator<Data> &postIter){
+    BTPostOrderIterator<Data>::operator=(postIter);
+    return *this;
+  }
 
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BTPostOrderMutableIterator &operator=(BTPostOrderMutableIterator<Data> &&) noexcept;
+  BTPostOrderMutableIterator &operator=(BTPostOrderMutableIterator<Data> &&postIter) noexcept{
+    BTPostOrderIterator<Data>::operator=(std::move(postIter));
+    return *this;
+  }
 
   /* ************************************************************************ */
 
@@ -831,12 +843,18 @@ public:
   // Copy assignment
   // type operator=(argument) specifiers;
 
-  BTInOrderMutableIterator &operator=(const BTInOrderMutableIterator<Data> &);
+  BTInOrderMutableIterator &operator=(const BTInOrderMutableIterator<Data> &inIter){
+    BTInOrderIterator<Data>::operator=(inIter);
+    return *this;
+  }
 
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BTInOrderMutableIterator &operator=(BTInOrderMutableIterator<Data> &&) noexcept;
+  BTInOrderMutableIterator &operator=(BTInOrderMutableIterator<Data> &&inIter) noexcept{
+    BTInOrderIterator<Data>::operator=(std::move(inIter));
+    return *this;
+  }
 
   /* ************************************************************************ */
 
@@ -1001,12 +1019,18 @@ public:
   // Copy assignment
   // type operator=(argument) specifiers;
 
-  BTBreadthMutableIterator &operator=(const BTBreadthMutableIterator<Data> &);
+  BTBreadthMutableIterator &operator=(const BTBreadthMutableIterator<Data> &breIter){
+    BTBreadthIterator<Data>::operator=(std::move(breIter));
+    return *this;
+  }
 
   // Move assignment
   // type operator=(argument) specifiers;
 
-  BTBreadthMutableIterator &operator=(BTBreadthMutableIterator<Data> &&) noexcept;
+  BTBreadthMutableIterator &operator=(BTBreadthMutableIterator<Data> &&breIter) noexcept{
+    BTBreadthIterator<Data>::operator=(std::move(breIter));
+    return *this;
+  }
 
   /* ************************************************************************ */
 

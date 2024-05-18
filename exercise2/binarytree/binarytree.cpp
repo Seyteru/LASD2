@@ -315,43 +315,6 @@ namespace lasd {
     }
 
     //PreOrderMutableIterator
-    // template <typename Data>
-    // inline BTPreOrderMutableIterator<Data>::BTPreOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-    //     if(!mutBinaryTree.Empty()){
-    //         root = &mutBinaryTree.Root();
-    //         origin = root;
-    //     }
-    // }
-
-    // template <typename Data>
-    // BTPreOrderMutableIterator<Data>::BTPreOrderMutableIterator(const BTPreOrderMutableIterator<Data> &mutPreIter){
-    //     stk = mutPreIter.stk;
-    //     root = mutPreIter.root;
-    //     origin = mutPreIter.origin;
-    // }
-
-    // template <typename Data>
-    // BTPreOrderMutableIterator<Data>::BTPreOrderMutableIterator(BTPreOrderMutableIterator<Data> &&mutPreIter) noexcept{
-    //     std::swap(stk, mutPreIter.stk);
-    //     std::swap(root, mutPreIter.root);
-    //     std::swap(origin, mutPreIter.origin);
-    // }
-
-    template <typename Data>
-    BTPreOrderMutableIterator<Data> &BTPreOrderMutableIterator<Data>::operator=(const BTPreOrderMutableIterator<Data> &mutPreIter){
-        stk = mutPreIter.stk;
-        root = mutPreIter.root;
-        origin = mutPreIter.origin;
-        return *this;
-    }
-
-    template <typename Data>
-    BTPreOrderMutableIterator<Data> &BTPreOrderMutableIterator<Data>::operator=(BTPreOrderMutableIterator<Data> &&mutPreIter) noexcept{
-        std::swap(stk, mutPreIter.stk);
-        std::swap(root, mutPreIter.root);
-        std::swap(origin, mutPreIter.origin);
-        return *this;
-    }
 
     template <typename Data>
     bool BTPreOrderMutableIterator<Data>::operator==(const BTPreOrderMutableIterator<Data> &mutPreIter) const noexcept{
@@ -485,56 +448,6 @@ namespace lasd {
     }
 
     //PostOrderMutableIterator
-    // template <typename Data>
-    // inline BTPostOrderMutableIterator<Data>::BTPostOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-    //     if(!mutBinaryTree.Empty()){
-    //         root = &mutBinaryTree.Root();
-    //         while(root -> HasLeftChild() || root -> HasRightChild()){
-    //             stk.Push(root);
-    //             if(root -> HasLeftChild()){
-    //                 root = &root -> LeftChild();
-    //             } else{
-    //                 root = &root -> RightChild();
-    //             }
-    //         }
-    //         origin = root;
-    //         stkOrigin = stk;
-    //     }
-    // }
-
-    // template <typename Data>
-    // BTPostOrderMutableIterator<Data>::BTPostOrderMutableIterator(const BTPostOrderMutableIterator<Data> &mutPostIter){
-    //     stk = mutPostIter.stk;
-    //     root = mutPostIter.root;
-    //     origin = mutPostIter.origin;
-    //     stkOrigin = mutPostIter.stkOrigin;
-    // }
-
-    // template <typename Data>
-    // BTPostOrderMutableIterator<Data>::BTPostOrderMutableIterator(BTPostOrderMutableIterator<Data> &&mutPostIter) noexcept{
-    //     std::swap(stk, mutPostIter.stk);
-    //     std::swap(root, mutPostIter.root);
-    //     std::swap(origin, mutPostIter.origin);
-    //     std::swap(stkOrigin, mutPostIter.stkOrigin);
-    // }
-
-    template <typename Data>
-    BTPostOrderMutableIterator<Data> &BTPostOrderMutableIterator<Data>::operator=(const BTPostOrderMutableIterator<Data> &mutPostIter){
-        stk = mutPostIter.stk;
-        root = mutPostIter.root;
-        origin = mutPostIter.origin;
-        stkOrigin = mutPostIter.stkOrigin;
-        return *this;
-    }
-
-    template <typename Data>
-    BTPostOrderMutableIterator<Data> &BTPostOrderMutableIterator<Data>::operator=(BTPostOrderMutableIterator<Data> &&mutPostIter) noexcept{
-        std::swap(stk, mutPostIter.stk);
-        std::swap(root, mutPostIter.root);
-        std::swap(origin, mutPostIter.origin);
-        std::swap(stkOrigin, mutPostIter.stkOrigin);
-        return *this;
-    }
 
     template <typename Data>
     bool BTPostOrderMutableIterator<Data>::operator==(const BTPostOrderMutableIterator<Data> &mutPostIter) const noexcept{
@@ -665,52 +578,6 @@ namespace lasd {
     }
 
     // InOrderMutableIterator
-    // template <typename Data>
-    // inline BTInOrderMutableIterator<Data>::BTInOrderMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-    //     if(!mutBinaryTree.Empty()){
-    //         root = &mutBinaryTree.Root();
-    //         while(root -> HasLeftChild()){
-    //             stk.Push(root);
-    //             root = &root -> LeftChild();
-    //         }
-    //         origin = root;
-    //         stkOrigin = stk;
-    //     }
-    // }
-
-    // template <typename Data>
-    // BTInOrderMutableIterator<Data>::BTInOrderMutableIterator(const BTInOrderMutableIterator<Data> &mutInIter){
-    //     stk = mutInIter.stk;
-    //     root = mutInIter.root;
-    //     origin = mutInIter.origin;
-    //     stkOrigin = mutInIter.stkOrigin;
-    // }
-
-    // template <typename Data>
-    // BTInOrderMutableIterator<Data>::BTInOrderMutableIterator(BTInOrderMutableIterator<Data> &&mutInIter) noexcept{
-    //     std::swap(stk, mutInIter.stk);
-    //     std::swap(root, mutInIter.root);
-    //     std::swap(origin, mutInIter.origin);
-    //     std::swap(stkOrigin, mutInIter.stkOrigin);
-    // }
-
-    template <typename Data>
-    BTInOrderMutableIterator<Data> &BTInOrderMutableIterator<Data>::operator=(const BTInOrderMutableIterator<Data> &mutInIter){
-        stk = mutInIter.stk;
-        root = mutInIter.root;
-        origin = mutInIter.origin;
-        stkOrigin = mutInIter.stkOrigin;
-        return *this;
-    }
-
-    template <typename Data>
-    BTInOrderMutableIterator<Data> &BTInOrderMutableIterator<Data>::operator=(BTInOrderMutableIterator<Data> &&mutInIter) noexcept{
-        std::swap(stk, mutInIter.stk);
-        std::swap(root, mutInIter.root);
-        std::swap(origin, mutInIter.origin);
-        std::swap(stkOrigin, mutInIter.stkOrigin);
-        return *this;
-    }
 
     template <typename Data>
     bool BTInOrderMutableIterator<Data>::operator==(const BTInOrderMutableIterator<Data> &mutInIter) const noexcept{
@@ -822,43 +689,6 @@ namespace lasd {
     }
 
     // BreadthMutableIterator
-    // template <typename Data>
-    // inline BTBreadthMutableIterator<Data>::BTBreadthMutableIterator(MutableBinaryTree<Data> &mutBinaryTree){
-    //     if(!mutBinaryTree.Empty()){
-    //         root = &mutBinaryTree.Root();
-    //         origin = root;
-    //     }
-    // }
-
-    // template <typename Data>
-    // BTBreadthMutableIterator<Data>::BTBreadthMutableIterator(const BTBreadthMutableIterator<Data> &mutBreadthIter){
-    //     que = mutBreadthIter.que;
-    //     root = mutBreadthIter.root;
-    //     origin = mutBreadthIter.origin;
-    // }
-
-    // template <typename Data>
-    // BTBreadthMutableIterator<Data>::BTBreadthMutableIterator(BTBreadthMutableIterator<Data> &&mutBreadthIter) noexcept{
-    //     std::swap(que, mutBreadthIter.que);
-    //     std::swap(root, mutBreadthIter.root);
-    //     std::swap(origin, mutBreadthIter.origin);
-    // }
-
-    template <typename Data>
-    BTBreadthMutableIterator<Data> &BTBreadthMutableIterator<Data>::operator=(const BTBreadthMutableIterator<Data> &mutBreadthIter){
-        que = mutBreadthIter.que;
-        root = mutBreadthIter.root;
-        origin = mutBreadthIter.origin;
-        return *this;
-    }
-
-    template <typename Data>
-    BTBreadthMutableIterator<Data> &BTBreadthMutableIterator<Data>::operator=(BTBreadthMutableIterator<Data> &&mutBreadthIter) noexcept{
-        std::swap(que, mutBreadthIter.que);
-        std::swap(root, mutBreadthIter.root);
-        std::swap(origin, mutBreadthIter.origin);
-        return *this;
-    }
 
     template <typename Data>
     bool BTBreadthMutableIterator<Data>::operator==(const BTBreadthMutableIterator<Data> &mutBreadthIter) const noexcept{

@@ -2641,6 +2641,7 @@ void mytestIteratorInteger() {
     ++preMutItr;
     ValueIteratorSet(preMutItr, 1);
     ++preMutItr;
+    preMutItr.Reset();
 
     cout << "PreOrder Traverse of BinaryTreeLnk" << endl;
     btlink.PreOrderTraverse([](const int &data){cout << data << " - ";});
@@ -2689,6 +2690,7 @@ void mytestIteratorInteger() {
     ++postMutItr;
     ValueIteratorSet(postMutItr, 2);
     ++postMutItr;
+    postMutItr.Reset();
 
     cout << "PostOrder Traverse of BinaryTreeLnk" << endl;
     btlink.PostOrderTraverse([](const int &data){cout << data << " - ";});
@@ -2737,6 +2739,7 @@ void mytestIteratorInteger() {
     ++inMutItr;
     ValueIteratorSet(inMutItr, 3);
     ++inMutItr;
+    inMutItr.Reset();
 
     cout << "InOrder Traverse of BinaryTreeLnk" << endl;
     btlink.InOrderTraverse([](const int &data){cout << data << " - ";});
@@ -2785,10 +2788,139 @@ void mytestIteratorInteger() {
     ++breMutItr;
     ValueIteratorSet(breMutItr, 1);
     ++breMutItr;
+    breMutItr.Reset();
 
     cout << "Breadth Traverse of BinaryTreeLnk" << endl;
     btlink.BreadthTraverse([](const int &data){cout << data << " - ";});
     cout << endl;
+
+    lasd::BTPreOrderMutableIterator<int> copPreMutItr(preMutItr);
+    cout << endl;
+    cout << "Tests of Copy Constructors (Should be Equals)" << endl;
+    cout << endl;
+    if(preMutItr == copPreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTPreOrderMutableIterator<int> movePreMutItr(move(preMutItr));
+    cout << endl;
+    cout << "Tests of Move Constructors (Should NOT be Equals)" << endl;
+    cout << endl;
+    if(preMutItr == movePreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    cout << endl << "Operator= Tests" << endl << endl;
+
+    preMutItr = copPreMutItr;
+
+    cout << "Tests of Move Constructors and copied Iterator (Should be Equals)" << endl;
+    cout << endl;
+    if(preMutItr == movePreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTPostOrderMutableIterator<int> copPostMutItr(postMutItr);
+    cout << endl;
+    cout << "Tests of Copy Constructors (Should be Equals)" << endl;
+    cout << endl;
+    if(postMutItr == copPostMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTPostOrderMutableIterator<int> movePostMutItr(move(postMutItr));
+    cout << endl;
+    cout << "Tests of Move Constructors (Should NOT be Equals)" << endl;
+    cout << endl;
+    if(postMutItr == movePostMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    cout << endl << "Operator= Tests" << endl << endl;
+
+    postMutItr = copPostMutItr;
+
+    cout << "Tests of Move Constructors and copied Iterator (Should be Equals)" << endl;
+    cout << endl;
+    if(postMutItr == movePostMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTInOrderMutableIterator<int> copInMutItr(inMutItr);
+    cout << endl;
+    cout << "Tests of Copy Constructors (Should be Equals)" << endl;
+    cout << endl;
+    if(inMutItr == copInMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTInOrderMutableIterator<int> moveInMutItr(move(inMutItr));
+    cout << endl;
+    cout << "Tests of Move Constructors (Should NOT be Equals)" << endl;
+    cout << endl;
+    if(inMutItr == moveInMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    cout << endl << "Operator= Tests" << endl << endl;
+
+    inMutItr = copInMutItr;
+
+    cout << "Tests of Move Constructors and copied Iterator (Should be Equals)" << endl;
+    cout << endl;
+    if(preMutItr == movePreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTBreadthMutableIterator<int> copBreMutItr(breMutItr);
+    cout << endl;
+    cout << "Tests of Copy Constructors (Should be Equals)" << endl;
+    cout << endl;
+    if(breMutItr == copBreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    lasd::BTBreadthMutableIterator<int> moveBreMutItr(move(breMutItr));
+    cout << endl;
+    cout << "Tests of Move Constructors (Should NOT be Equals)" << endl;
+    cout << endl;
+    if(breMutItr == moveBreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
+
+    cout << endl << "Operator= Tests" << endl << endl;
+
+    breMutItr = copBreMutItr;
+
+    cout << "Tests of Move Constructors and copied Iterator (Should be Equals)" << endl;
+    cout << endl;
+    if(breMutItr == moveBreMutItr){
+      cout << "The 2 Iterator are Equal" << endl;
+    } else{
+      cout << "The 2 Iterator are NOT Equal" << endl;
+    }
 
   }
   catch(...){
